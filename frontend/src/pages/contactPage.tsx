@@ -88,7 +88,7 @@ export function ContactPage() {
                     type="text"
                     placeholder="Complaint Summary"
                     className="bg-slate-50 w-full p-2 rounded-none border-2 border-offBlue active:border-0 focus:border-0 focus:outline focus:outline-green-200"
-                    name="subject"
+                    name="summary"
                   ></input>
                   {errors.summary && (
                     <div className="text-red-500 text-sm">
@@ -103,7 +103,7 @@ export function ContactPage() {
                     })}
                     placeholder="How can we be of help?"
                     className="bg-slate-50 w-full p-2 rounded-none border-2 border-offBlue active:border-0 focus:border-0 focus:outline focus:outline-green-200"
-                    name="userText"
+                    name="message"
                   ></textarea>
                   {errors.message && (
                     <div className="text-red-500 text-sm">

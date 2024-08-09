@@ -52,3 +52,17 @@ export interface ContactForm {
   summary: string;
   message: string;
 }
+
+export interface filterCategories {
+  _id: string;
+  type: string;
+}
+
+export interface productsData {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+  description: string;
+}

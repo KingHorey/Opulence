@@ -39,3 +39,21 @@ export function LargeProductsPick(props: {
     </div>
   );
 }
+
+export function ProductDisplay({
+  image,
+  name,
+  price,
+}: {
+  image: string;
+  name: string;
+  price: number;
+}) {
+  return (
+    <div className="lg:w-[100px] lg:h-[120px]">
+      <img src={image} className="w-full h-[90%] object-cover"></img>
+      <p>{name}</p>
+      <p>{price}</p>
+    </div>
+  );
+}

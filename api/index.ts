@@ -8,6 +8,8 @@ import auth from "./routes/auth/auth.routes";
 const MemoryStore = require("memorystore")(session);
 import cookie from 'cookie-parser';
 import userRoute from './models/users/user_routes'
+import { commsRoute } from "./routes/communications";
+import { productsRoute } from "./routes/products_route";
 
 config();
 mongo;
@@ -58,7 +60,8 @@ app.get(["/", "/home"], (req: Request, res: Response) => {
 
 app.use("/api/auth", auth);
 app.use("/api/user", userRoute)
-
+app.use("/api/comms", commsRoute)
+app.use("/api/products", productsRoute)
 
 
 module.exports = app;

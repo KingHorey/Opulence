@@ -1,15 +1,15 @@
-import { createClient } from "redis";
+import { MailerSend } from "mailersend";
+import { config } from "dotenv";
 
-export const client = createClient();
+config();
 
-client.on('connect', () => {
-	console.log('Connected to Redis');
-});
+const key: string = process.env.MAILER_SEND_API as string;
 
-client.on("exit", () => {
-	console.log('Redis connection closed');
-});
+const mailerSend = new MailerSend({
+  apiKey: key
+})
 
-client.on('error', (err: any) => {
-	console.log(err.message);
-});
+export default mailerSend;
+
+
+

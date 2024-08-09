@@ -1,4 +1,4 @@
-import { Schema, model, Document, Types } from 'mongoose';
+import { Schema, model, Document, Types, Date } from 'mongoose';
 
 interface Product extends Document {
 	name: string;
@@ -10,7 +10,14 @@ interface Product extends Document {
 	sizeVariants: string[],
 	colorVariants: string[],
 	category: Types.ObjectId;
-	featured: boolean
+	featured: boolean;
+	gender: string[];
+	// type: Types.ObjectId;
+	createdAt: Date
+}
+
+interface ProductType extends Document {
+	name: string;
 }
 
 
@@ -57,8 +64,26 @@ const ProductSchema = new Schema<Product>({
 		type: Boolean,
 		required: true,
 		default: false
+	},
+	// type: {
+	// 	type: Schema.Types.ObjectId,
+	// 	ref: "ProductType"
+	// },
+	gender: {
+		type: [String],
+		enum: ["male", "female", "unisexual", "children"],
+		required: true
 	}
 });
 
+// const TypeSchema = new Schema<ProductType>({
+// 	name: {
+// 		type: String,
+// 		enum: ["male", "female", "unisexual", "children"],
+// 		required: true
+// 	}
+// });
+
 
 export const productModel = model<Product>('Product', ProductSchema);
+// export const productTypeModel = model <ProductType>('ProductType', TypeSchema)

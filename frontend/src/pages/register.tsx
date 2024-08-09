@@ -101,10 +101,18 @@ export function RegisterPage() {
             }, 5000);
           } else {
             resolve("Registration failed");
+            toastify({
+              type: "error",
+              text: "Registration Unsuccessful, please retry",
+            });
             setError("root", { message: "Registration failed" });
           }
         })
         .catch(() => {
+          toastify({
+            type: "error",
+            text: "Registration Unsuccessful, please retry",
+          });
           reject("Registration failed");
           setError("root", { message: "Registration failed" });
         });

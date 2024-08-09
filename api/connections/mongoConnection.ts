@@ -1,12 +1,12 @@
 import mongoose from 'mongoose'
 import { config } from 'dotenv';
+import { createClient } from "redis";
 
 config();
 
 const DB: string = process.env.DB as string;
 const mongoUri = process.env.MONGO_URI as string;
-const localMongoURI = process.env.LOCAL_MONGO_URI as string;
-
+export const client = createClient();
 
 
 export const mongo = mongoose.connect(mongoUri, {
@@ -17,13 +17,19 @@ export const mongo = mongoose.connect(mongoUri, {
 }).catch((err: any) => {
     console.log(err.message);
     // try to connect to local mongosh for development
-    try {
-        mongoose.connect(localMongoURI, {
-            dbName: DB
-        })
-        console.log("Successfully connected to local mongosh")
-    }
-    catch (err: any) {
-        console.error(err.message)
-    }
+});
+
+
+
+
+client.on('connect', () => {
+	console.log('Connected to Redis');
+});
+
+client.on("exit", () => {
+	console.log('Redis connection closed');
+});
+
+client.on('error', (err: any) => {
+	console.log(err.message);
 });

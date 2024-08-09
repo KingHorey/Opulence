@@ -1,21 +1,23 @@
 import { NextFunction, Request, Response } from "express";
 import { hash } from "bcrypt";
 import { userModel } from "../../models/users/user.models";
-// const msg = require('mailgun.js')
-// const formData = require('form-data')
 import { config } from "dotenv";
+import Nodemailer from 'nodemailer'
+
+const passwd: string = process.env.OPULENCE_PWD as string;
+const host: string = process.env.OPULENCE_HOST as string;
+const mail: string = process.env.OPULENCE_MAIL as string;
+
+const nodeMail = Nodemailer.createTransport({
+  host,
+  port: 587,
+  secure: false,
+  auth: {
+    user: mail,
+    pass: passwd
+  }
+})
 config();
-
-
-// const mailgun = new msg(formData);
-// mailgun.client({
-//   username: 'api',
-//   key: process.env.MAIL_GUN_API_KEY as string
-// })
-
-/**
- * validates the user's email and password for local sign in
- */
 export function findUserByEmail(
   req: Request,
   res: Response,
@@ -52,27 +54,36 @@ export async function registerUser(
           throw new Error(err.message);
         }
         user.password = hash;
-        await user.save().then(() => {
-          // mailgun.messages.create('sandbox-123.mailgun.org', {
-          //   from: "Admin <mailgun@sandbox3d46e872e7cf4e538dd96d713a020dd4.mailgun.org>",
-          //   to: email,
-          //   subject: "Welcome",
-          //   text: "Welcome to Opulence!",
-          //   html: "<h1>Testing some Mailgun awesomeness!</h1>"
-          // }).then((e: any) => {
-          //   console.log(e)
-          // }).catch((err: any) => {
-          //   console.error(err)
-          // })
-          res.status(201).json({ message: "User created successfully" });
-        }).catch((err: any) => {
-          throw new Error(err.message);
-        });
-      });
-    } else {
-      throw new Error("User not created");
+        try {
+          let welcomeMail = {
+            from: `The Opulence Team opulence@scrribbles.tech`,
+            to: email,
+            subject: "Welcome To Opulence",
+            html: `
+            <div style="height: 90px; width: 80vw><img src="https://bucket.mailersendapp.com/neqvygmrw5l0p7w2/o65qngk1773lwr12/images/9cb95963-89f7-4dd5-8bfd-73998e214d53.png" style="object-fit: cover; width: 100%; height: 100%"></div><h1><strong>Welcome, your account has been <span style="color: rgb(25, 102, 255);">created!</span></strong></h1><h2><strong>Congratulations&nbsp;<span style="color: rgb(25, 102, 255);">${f_name} ${l_name}!</span></strong></h2>
+            <p>With Opulence, you’re not just a customer—you’re part of a community that values quality, luxury, and unbeatable deals. From exclusive discounts to premium collections, get ready to experience shopping like never before.</p>
+            <p>We’re so excited to have you with us!</p>
+            <p>With Opulence, you have access to the best of wears, discounts, and premium customer experience.</p>
+            <a href="https://opulence-zeta.vercel.app" style="padding: 20px; background-color: #417A9F; color: #ffffff; text-decoration: none; font-weight: bold; display: flex; align-items: center; margin-top: 20px; width: 120px ">Opulence Home</a>
+            `
+          }
+          await nodeMail.sendMail(welcomeMail)
+          await user.save()
+          res.status(201).json({ message: "User created" });
+        }
+        catch (err: any){
+          console.error(err.message)
+          res.status(500).json({ message: "User not created" });
+        }
+      })
     }
-  } catch (err: any) {
-    res.status(400).json({ message: err });
+    else {
+      res.status(500).json({ message: "User not created" });
+    }
+  }
+  catch (err: any) {
+              console.error(err.message)
+
+    res.status(401).json({ message: err });
   }
 }

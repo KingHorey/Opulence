@@ -1,22 +1,7 @@
 import { Router, Request, Response } from 'express';
-import Nodemailer from 'nodemailer';
-import { config } from 'dotenv';
-config();
 
-const hostMail: string = process.env.HOST_MAIL as string;
+export const commsRoute: Router = Router();
 
-const comms: Router = Router();
-const transporter = Nodemailer.createTransport({
-  host: hostMail,
-  port: 587,
-  secure: false,
-  auth: {
-    
-  }
+commsRoute.post("/contact-us", (req: Request, res: Response) => {
+	const { name, email, summary, message } = req.body;
 })
-comms.post("/contact-us", (req: Request, res: Response) => {
-  const { email, name, summary, message } = req.body;
-
-}
-)
-
