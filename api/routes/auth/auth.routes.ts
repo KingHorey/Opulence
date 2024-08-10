@@ -47,7 +47,7 @@ auth.post(
   const rememberMe = req.body.rememberMe;
     const token = jwt.sign({ token: req.user._id.toString() }, process.env.JWT_TOKEN_SECRET as string, { expiresIn:  rememberMe ? '30d' : '1d'})
     tokens.token = token;
-    res.status(200).send(tokens);
+    res.status(200).send({ tokens, isAdmin: req.user.isAdmin });
   }
 );
 

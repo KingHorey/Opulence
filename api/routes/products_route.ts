@@ -37,7 +37,6 @@ async function verifyUser(req: Request, res: Response, next: NextFunction) {
 // });
 
 productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
-	console.log("e")
 	try {
 		let result = await productModel.find().sort({createdAt: -1}).limit(10);
 		res.status(200).json(result)
@@ -54,6 +53,28 @@ productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 	}
 	catch (err) {
 		res.status(400)
+	}
+})
+
+productsRoute.post("/add-product", verifyUser, async (req: Request, res: Response) => {
+	const { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category } = req.body;
+	try {
+		let verifyProduct = new productModel({ name, brand, price, quantity, description, image, sizeVariants, colorVariants, category})
+		verifyProduct.save()
+		res.status(201).send("Product successfully added")
+	} catch (err) {
+		res.status(400).json(err)
+	}
+})
+
+
+productsRoute.get("/all-brands", async (req: Request, res: Response) => {
+	try {
+		let result = await productModel.find().distinct('brand');
+		res.status(200).json(result)
+	}
+	catch (err) {
+		res.status(400).json(err)
 	}
 })
 
