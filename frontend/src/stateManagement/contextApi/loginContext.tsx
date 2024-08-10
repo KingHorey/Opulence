@@ -2,16 +2,21 @@ import React, { createContext, useContext, useState } from "react";
 
 export interface contextInterface {
   authStatus: boolean;
+  adminStatus: boolean;
   setAuthStatus: (status: boolean) => void;
+  setAdminStatus: (status: boolean) => void;
 }
 
 export const context = createContext<contextInterface | null>(null);
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [authStatus, setAuthStatus] = useState<boolean>(false);
+  const [adminStatus, setAdminStatus] = useState<boolean>(false);
 
   return (
-    <context.Provider value={{ authStatus, setAuthStatus }}>
+    <context.Provider
+      value={{ authStatus, adminStatus, setAdminStatus, setAuthStatus }}
+    >
       {children}
     </context.Provider>
   );

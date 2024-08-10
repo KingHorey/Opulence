@@ -97,7 +97,7 @@ export function NavBar(): JSX.Element {
           </div>
           <div className="cursor-pointer">
             {isAuthenticated ? (
-              <NavLink to="/profile">
+              <NavLink to="/profile/personal-info">
                 <UserIcon />
               </NavLink>
             ) : (

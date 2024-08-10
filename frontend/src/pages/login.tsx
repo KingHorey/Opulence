@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { axiosConfig } from "../misc/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../stateManagement/contextApi/loginContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toastify } from "../components/toastify";
 import {
   AppleSVG,
@@ -30,7 +30,7 @@ export function LoginPage() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFields>();
-  const { authStatus, setAuthStatus } = useAppContext();
+  const { setAuthStatus, adminStatus, setAdminStatus } = useAppContext();
   const [rememberMe, setRememberMe] = useState(false);
 
   function handleRememberMe() {
@@ -52,12 +52,14 @@ export function LoginPage() {
           if (e.status === 200) {
             signIn({
               auth: {
-                token: e.data.token,
+                token: e.data.tokens.token,
                 type: "Bearer",
               },
-              userState: { email: data.email },
+              userState: { email: data.email, isAdmin: e.data.isAdmin },
             });
             setAuthStatus(true);
+            setAdminStatus(e.data.isAdmin);
+            console.log(adminStatus);
             toastify({
               type: "success",
               text: "Login Successful..Redirecting to home page in 5 seconds",
@@ -76,10 +78,6 @@ export function LoginPage() {
       console.error(err.message);
     }
   };
-  useEffect(() => {
-    console.log("Current authStatus:", authStatus);
-    localStorage.setItem("authStatus", JSON.stringify(authStatus));
-  }, [authStatus]);
 
   return (
     <div className="w-[85%]  mr-auto ml-auto">

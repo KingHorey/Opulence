@@ -94,7 +94,6 @@ export default function PersonalInfo() {
         }
       })
       .catch((err) => {
-        console.log(err.message);
         toastify({ type: "error", text: `${err.message}` });
         <ToastContainer />;
       });

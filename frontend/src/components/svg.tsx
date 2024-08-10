@@ -196,7 +196,7 @@ export function BigLoadingAnimation() {
     <svg
       viewBox="0 0 16 16"
       xmlns="http://www.w3.org/2000/svg"
-      fill="#000000"
+      fill="#417A9F"
       className="h-20 w-20 animate-spin mr-auto ml-auto inline bg-transparent"
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -206,7 +206,7 @@ export function BigLoadingAnimation() {
         strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
-        <g fill="#ffffff" fillRule="evenodd" clipRule="evenodd">
+        <g fill="#417A9F" fillRule="evenodd" clipRule="evenodd">
           <path
             d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8z"
             opacity=".2"

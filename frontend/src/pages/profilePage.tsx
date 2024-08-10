@@ -2,8 +2,11 @@ import { PageContainer } from "../components/pageContainer";
 import { DisplaySideBarContent, SideBar } from "../components/sideBar";
 import { NavLink, Outlet } from "react-router-dom";
 import ResponsiveNavBar from "../components/responsiveNavBar";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 export function Profile() {
+  const authAdmin: { isAdmin: boolean } | null = useAuthUser();
+  const adminState = authAdmin?.isAdmin;
   return (
     <PageContainer>
       <ResponsiveNavBar />
@@ -22,28 +25,54 @@ export function Profile() {
             </NavLink>
           </div>
           <div className=" rounded-sm duration-200 hover:bg-[#f1f1f2]">
-            <NavLink
-              to="/profile/my-orders"
-              className={({ isActive }) => {
-                return isActive
-                  ? "w-full lg:text-xl xxs:text-xs  bg-gray-300  inline-block rounded-md"
-                  : "w-full lg:text-xl xxs:text-xs inline-block p-1";
-              }}
-            >
-              My Orders
-            </NavLink>
+            {adminState ? (
+              <NavLink
+                to="/profile/all-orders"
+                className={({ isActive }) => {
+                  return isActive
+                    ? "w-full lg:text-xl xxs:text-xs  bg-gray-300  inline-block rounded-md"
+                    : "w-full lg:text-xl xxs:text-xs inline-block p-1";
+                }}
+              >
+                All Orders
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/profile/my-orders"
+                className={({ isActive }) => {
+                  return isActive
+                    ? "w-full lg:text-xl xxs:text-xs  bg-gray-300  inline-block rounded-md"
+                    : "w-full lg:text-xl xxs:text-xs inline-block p-1";
+                }}
+              >
+                My Orders
+              </NavLink>
+            )}
           </div>
           <div className="rounded-sm duration-200  hover:bg-[#f1f1f2]">
-            <NavLink
-              to="/profile/saved-items"
-              className={({ isActive }) => {
-                return isActive
-                  ? "w-full lg:text-xl xxs:text-xs  bg-gray-300 p-1 inline-block rounded-md"
-                  : "w-full lg:text-xl xxs:text-xs inline-block p-1";
-              }}
-            >
-              Saved Items
-            </NavLink>
+            {adminState ? (
+              <NavLink
+                to="/profile/add-product"
+                className={({ isActive }) => {
+                  return isActive
+                    ? "w-full lg:text-xl xxs:text-xs  bg-gray-300  inline-block rounded-md"
+                    : "w-full lg:text-xl xxs:text-xs inline-block p-1";
+                }}
+              >
+                Add Item
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/profile/saved-items"
+                className={({ isActive }) => {
+                  return isActive
+                    ? "w-full lg:text-xl xxs:text-xs  bg-gray-300 p-1 inline-block rounded-md"
+                    : "w-full lg:text-xl xxs:text-xs inline-block p-1";
+                }}
+              >
+                Saved Items
+              </NavLink>
+            )}
           </div>
           <div className="rounded-sm duration-200  hover:bg-[#f1f1f2]">
             <NavLink
