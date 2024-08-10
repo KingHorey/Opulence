@@ -3,6 +3,7 @@ import { Schema, model, Document, Types } from 'mongoose';
 interface Brand extends Document {
 	name: string;
 	image: string;
+	description: string;
 }
 
 const BrandSchema = new Schema<Brand>({
@@ -11,6 +12,10 @@ const BrandSchema = new Schema<Brand>({
 		required: true
 	},
 	image: {
+		type: String,
+		required: true
+	},
+	description: {
 		type: String,
 		required: true
 	}

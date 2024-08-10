@@ -12,7 +12,6 @@ interface Product extends Document {
 	category: Types.ObjectId;
 	featured: boolean;
 	gender: string[];
-	// type: Types.ObjectId;
 	createdAt: Date
 }
 

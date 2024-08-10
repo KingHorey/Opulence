@@ -12,6 +12,8 @@ import { Profile } from "./pages/profilePage";
 import PersonalInfo from "./pages/personalInfo";
 import NewArrivals from "./pages/newArrivals";
 import { ContactPage } from "./pages/contactPage";
+import { OrdersPage } from "./pages/orders";
+import { AddBrandPage } from "./pages/addBrand";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -60,6 +62,14 @@ function App() {
             {
               path: "/profile/personal-info",
               element: <PersonalInfo />,
+            },
+            {
+              path: "/profile/orders",
+              element: <OrdersPage />,
+            },
+            {
+              path: "/profile/add-brand",
+              element: <AddBrandPage />,
             },
           ],
         },

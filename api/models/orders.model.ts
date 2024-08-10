@@ -3,6 +3,7 @@ import { Schema, Document, model, Types } from "mongoose";
 export interface Order extends Document {
 	user: Types.ObjectId;
 	products: {
+		_id: string;
 		product: string;
 		quantity: number;
 	}[];
@@ -32,4 +33,4 @@ const OrderSchema = new Schema<Order>({
 	}
 })
 
-export const orderModel = mode<Order>('Orders', OrderSchema)
+export const orderModel = model<Order>('Orders', OrderSchema)

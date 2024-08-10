@@ -64,7 +64,8 @@ export async function registerUser(
             <p>With Opulence, you’re not just a customer—you’re part of a community that values quality, luxury, and unbeatable deals. From exclusive discounts to premium collections, get ready to experience shopping like never before.</p>
             <p>We’re so excited to have you with us!</p>
             <p>With Opulence, you have access to the best of wears, discounts, and premium customer experience.</p>
-            <a href="https://opulence-zeta.vercel.app" style="padding: 20px; background-color: #417A9F; color: #ffffff; text-decoration: none; font-weight: bold; display: flex; align-items: center; margin-top: 20px; width: 120px ">Opulence Home</a>
+            <p>Kindly click the link below to verify your mail</p>
+            <a href="https://opulence-zeta.vercel.app" style="padding: 10px; background-color: #417A9F; color: #ffffff; text-decoration: none; font-weight: bold; display: flex; align-items: center; margin-top: 20px; width: 90px ">Opulence Home</a>
             `
           }
           await nodeMail.sendMail(welcomeMail)

@@ -4,6 +4,12 @@ import { categoryModel } from '../models/categories/category.models'
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { userModel } from '../models/users/user.models';
+import { brandModel } from '../models/brands/brand.models';
+
+/**
+ * Endpoints for all product related processes
+ *
+ */
 
 export const productsRoute: Router = Router();
 config();
@@ -98,5 +104,20 @@ productsRoute.post("/add-product-category", verifyUser,  async (req: Request, re
 	}
 	catch (err: any) {
 		res.status(400).json({ message: err.message })
+	}
+})
+
+productsRoute.post("/add-brand", verifyUser, async (req: Request, res: Response) => {
+	const { name, image } = req.body;
+	try {
+		let findBrand = await brandModel.findOne({ name: name })
+		if (findBrand) {
+			return res.status(409).json({ message: "Brand already exists" })
+		}
+		let verifyBrand = new brandModel({ name, image })
+		verifyBrand.save()
+		res.status(201).send("Brand successfully added")
+	} catch (err) {
+		res.status(500).send("Failed to add brand")
 	}
 })

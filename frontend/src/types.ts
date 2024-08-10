@@ -66,3 +66,19 @@ export interface productsData {
   category: string;
   description: string;
 }
+
+export interface profileOrders {
+  user: string;
+  product: [Record<string, string | number>?];
+  name: string;
+  price: number;
+  status: string;
+  quantity: number;
+  total: number;
+}
+
+export interface addNewBrand {
+  name: string;
+  image: string;
+  description: string;
+}
