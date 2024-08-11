@@ -14,6 +14,7 @@ import NewArrivals from "./pages/newArrivals";
 import { ContactPage } from "./pages/contactPage";
 import { OrdersPage } from "./pages/orders";
 import { AddBrandPage } from "./pages/addBrand";
+import { AddProduct } from "./pages/addProduct";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -70,6 +71,10 @@ function App() {
             {
               path: "/profile/add-brand",
               element: <AddBrandPage />,
+            },
+            {
+              path: "/profile/add-product",
+              element: <AddProduct />,
             },
           ],
         },

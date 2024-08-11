@@ -82,3 +82,21 @@ export interface addNewBrand {
   image: string;
   description: string;
 }
+
+export interface addNewProduct {
+  name: string;
+  brand: string;
+  price: number;
+  quantity: number;
+  description: number;
+  image: string;
+  sizeVariants: string[];
+  colorVariants: string[];
+  category: string;
+  featured: boolean;
+  gender: string;
+}
+
+export interface getBrandData {
+  [key: string]: string;
+}

@@ -13,47 +13,47 @@ export function OrdersPage() {
   const admin = authUser?.isAdmin;
   const [filterOrders, setFilterOrders] = useState<string>("all");
 
-  // useEffect(() => {
-  //   const fetchOrders = async () => {
-  //     try {
-  //       let result = await axios.get(
-  //         `${import.meta.env.HOST_URL}${import.meta.env.ORDER}/: ${filterOrders}`,
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             Authorization: authHeader,
-  //           },
-  //         }
-  //       );
-  //       if (result.status === 200) {
-  //         setOrders(result.data);
-  //       } else {
-  //         console.error("An error occured");
-  //       }
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        let result = await axios.get(
+          `${import.meta.env.HOST_URL}${import.meta.env.ORDER}/: ${filterOrders}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: authHeader,
+            },
+          }
+        );
+        if (result.status === 200) {
+          setOrders([]);
+        } else {
+          console.error("An error occured");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  //   fetchOrders();
-  // }, [filterOrders]);
+    fetchOrders();
+  }, [filterOrders]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3000/api/orders", {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: authHeader,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         setOrders(response.data);
-  //       } else {
-  //         console.error("An error occured");
-  //       }
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/orders", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authHeader,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setOrders(response.data);
+        } else {
+          console.error("An error occured");
+        }
+      });
+  }, []);
   return (
     <div className="pb-5 ml-5 mr-5">
       {admin && (
@@ -61,6 +61,7 @@ export function OrdersPage() {
           <InfoDiv count={orders.length} text="Total orders placed" />
           <InfoDiv
             count={
+              orders &&
               orders.filter((order: any) => order.status === "pending").length
             }
             text="Pending orders"
@@ -68,6 +69,7 @@ export function OrdersPage() {
           />
           <InfoDiv
             count={
+              orders &&
               orders.filter((order: any) => order.status === "completed").length
             }
             text="Completed orders"
@@ -75,6 +77,7 @@ export function OrdersPage() {
           />
           <InfoDiv
             count={
+              orders &&
               orders.filter((order: any) => order.status === "failed").length
             }
             text="Failed orders"
