@@ -33,7 +33,6 @@ export function RegisterPage() {
   const [validMail, checkValidMail] = useState(false);
   const [initialState, setMailState] = useState(true);
 
-  // console.log(initialState);
   function styles() {
     if (validMail && initialState) {
       return "border-green-500";
