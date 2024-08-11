@@ -17,7 +17,7 @@ config();
 const secretToken = process.env.JWT_TOKEN_SECRET as string;
 
 async function verifyUser(req: Request, res: Response, next: NextFunction) {
-	const token = req.headers.authorization?.split(' ')[1]
+		const token = req.headers.authorization?.split(' ')[1]
 	if (!token) {
 		return res.status(401).json({ message: "Unauthorized" })
 	}
@@ -76,7 +76,7 @@ productsRoute.post("/add-product", verifyUser, async (req: Request, res: Respons
 
 productsRoute.get("/all-brands", async (req: Request, res: Response) => {
 	try {
-		let result = await productModel.find().distinct('brand');
+		let result = await brandModel.find();
 		res.status(200).json(result)
 	}
 	catch (err) {
@@ -108,16 +108,17 @@ productsRoute.post("/add-product-category", verifyUser,  async (req: Request, re
 })
 
 productsRoute.post("/add-brand", verifyUser, async (req: Request, res: Response) => {
-	const { name, image } = req.body;
+	const { name, image, description } = req.body.data;
 	try {
 		let findBrand = await brandModel.findOne({ name: name })
 		if (findBrand) {
-			return res.status(409).json({ message: "Brand already exists" })
+			res.status(409).send("Brand already exists")
+		} else {
+			let verifyBrand = new brandModel({ name, image, description })
+			verifyBrand.save()
+			return res.status(201).send("Brand successfully added")
 		}
-		let verifyBrand = new brandModel({ name, image })
-		verifyBrand.save()
-		res.status(201).send("Brand successfully added")
 	} catch (err) {
-		res.status(500).send("Failed to add brand")
+		return res.status(500).send("Failed to add brand")
 	}
 })
