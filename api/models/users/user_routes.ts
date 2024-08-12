@@ -48,7 +48,6 @@ userRoute.put("/update-personal-information", (req: Request, res: Response) => {
 				userModel.findOne({ email: userMail }).then((data) => {
 					if (data) {
 						if (data.email !== email) {
-							console.log('Found diff data ', data)
 							userModel.findOneAndUpdate({ email: req.body.userMail }, { telephoneHome, telephonePersonal, email }, {new: true, select: {telephoneHome: 1, telephonePersonal: 1, email: 1, f_name: 1, l_name: 1, emailVerified: 1, password: 0}})
 								.then((data) => {
 									if (data) {

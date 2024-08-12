@@ -22,7 +22,6 @@ passport.deserializeUser(async (id, done) => {
 export default passport.use(new Strategy({ usernameField: "email",  }, async (email, password, done) => {
 	try {
 		let result = await userModel.findOne({ email: email })
-		console.log(result)
 		if (!result) {
 			// done(null, false, { message: "Incorrect email address" });
 			throw new Error("Incorrect email address");

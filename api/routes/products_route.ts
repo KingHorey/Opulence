@@ -17,7 +17,7 @@ config();
 const secretToken = process.env.JWT_TOKEN_SECRET as string;
 
 async function verifyUser(req: Request, res: Response, next: NextFunction) {
-		const token = req.headers.authorization?.split(' ')[1]
+	const token = req.headers.authorization?.split(' ')[1]
 	if (!token) {
 		return res.status(401).json({ message: "Unauthorized" })
 	}
@@ -63,13 +63,37 @@ productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 })
 
 productsRoute.post("/add-product", verifyUser, async (req: Request, res: Response) => {
-	const { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category } = req.body;
+	let { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category, featured } = req.body.data;
+	colorVariants = colorVariants.split(" ");
+	colorVariants = colorVariants.map((e: string) => {
+		let f_index = e.slice(0,1).toUpperCase()
+		let l_indexs = e.slice(1,).toLowerCase()
+	return e === f_index + l_indexs
+	})
+	featured = featured == "true" ? true : false
 	try {
-		let verifyProduct = new productModel({ name, brand, price, quantity, description, image, sizeVariants, colorVariants, category})
-		verifyProduct.save()
-		res.status(201).send("Product successfully added")
-	} catch (err) {
-		res.status(400).json(err)
+		let findProduct = await productModel.findOne({ name: name }, { quantity: 1 })
+		if (findProduct?.quantity !== 0) {
+			let update = await productModel.findOneAndUpdate({ name: name }, { ...req.body.getBrandData }, { new: true })
+			if (update) {
+				return res.status(200).send("Produc successfully updated")
+			}
+			else {
+				return res.status(500).send("Failed to update product")
+			}
+		}
+		else {
+			try {
+				let verifyProduct = new productModel({ name, brand, price, quantity, description, image, sizeVariants, colorVariants, category })
+				await verifyProduct.save()
+				res.status(201).send("Product successfully added")
+			} catch (err: any) {
+				res.status(400).json(err)
+			}
+		}
+	}
+	catch (err: any) {
+		res.status(500).send("Server error")
 	}
 })
 
