@@ -76,14 +76,11 @@ export async function fetchCategories(): Promise<categoriesData[] | null> {
       `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_CATEGORIES_ENDPOINT}`
     );
     if (response.status === 200) {
-      console.log(response.data);
       return response.data;
     } else {
-      console.log("Error");
       return null;
     }
   } catch (err: any) {
-    console.log(err.message);
     return null;
   }
 }
