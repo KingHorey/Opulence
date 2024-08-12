@@ -30,7 +30,7 @@ export function LoginPage() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFields>();
-  const { setAuthStatus, adminStatus, setAdminStatus } = useAppContext();
+  const { setAuthStatus, setAdminStatus } = useAppContext();
   const [rememberMe, setRememberMe] = useState(false);
 
   function handleRememberMe() {
@@ -59,7 +59,6 @@ export function LoginPage() {
             });
             setAuthStatus(true);
             setAdminStatus(e.data.isAdmin);
-            console.log(adminStatus);
             toastify({
               type: "success",
               text: "Login Successful..Redirecting to home page in 5 seconds",

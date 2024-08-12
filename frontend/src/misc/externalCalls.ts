@@ -1,5 +1,5 @@
 import { axiosConfig } from "./axiosConfig";
-import { UserProfileUpdate } from "../types";
+import { categoriesData, getBrandData, UserProfileUpdate } from "../types";
 import { ResponseData } from "../types";
 
 export function getEmailAvailability(email: string): Promise<boolean> {
@@ -53,4 +53,37 @@ export function updateUser(data: UserProfileUpdate): Promise<ResponseData> {
         reject(false);
       });
   });
+}
+
+export async function fetchBrands(): Promise<getBrandData[] | null> {
+  try {
+    let response = await axiosConfig.get(
+      `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_BRAND_ENDPOINT}`
+    );
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (err: any) {
+    return null;
+  }
+}
+
+export async function fetchCategories(): Promise<categoriesData[] | null> {
+  try {
+    let response = await axiosConfig.get(
+      `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_CATEGORIES_ENDPOINT}`
+    );
+    if (response.status === 200) {
+      console.log(response.data);
+      return response.data;
+    } else {
+      console.log("Error");
+      return null;
+    }
+  } catch (err: any) {
+    console.log(err.message);
+    return null;
+  }
 }

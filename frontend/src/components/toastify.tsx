@@ -22,7 +22,6 @@ export function toastify({ type, text }: ToastifyProps) {
         theme: "colored",
       });
   } else {
-    console.log(type);
     notify = () =>
       toast[type](text, {
         position: "top-center",

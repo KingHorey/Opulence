@@ -1,50 +1,101 @@
 import { axiosConfig } from "../misc/axiosConfig";
-import { LoadingAnimation } from "../components/svg";
-import UploadWidget from "../misc/uploadWidget";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { addNewProduct, getBrandData } from "../types";
+import { addNewProduct, categoriesData, getBrandData } from "../types";
 import { useState, useEffect } from "react";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { LoadingAnimation, RefreshIcon } from "../components/svg";
+import UploadWidget from "../misc/uploadWidget";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { fetchBrands, fetchCategories } from "../misc/externalCalls";
+import { toastify } from "../components/toastify";
 
 export function AddProduct() {
+  const authHeader = useAuthHeader();
+  const authUser: { email: string } | null = useAuthUser();
+  let userDetails = authUser?.email;
   const {
     register,
     handleSubmit,
     setError,
+    reset,
+    clearErrors,
     formState: { errors, isSubmitting },
-  } = useForm<addNewProduct>();
+  } = useForm<addNewProduct>({
+    defaultValues: {
+      sizeVariants: [],
+      colorVariants: [],
+      featured: false,
+    },
+  });
 
+  // const sizeVariants = watch("sizeVariants");
   const uploadSuccess = (link: string) => {
     setImageLink(link);
   };
 
   const [imageLink, setImageLink] = useState<string>("");
   const [brands, setBrands] = useState<getBrandData[]>([]);
+  const [categories, setCategories] = useState<categoriesData[]>([]);
 
-  useEffect(() => {
-    const getBrands = async () => {
-      try {
-        let response = await axiosConfig.get(
-          `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_BRAND_ENDPOINT}`
-        );
-        if (response.status === 200) {
-          setBrands(response.data);
-        } else {
-          setError("brand", {
-            message: "Error fetching brands, please refresh the page",
-          });
-        }
-      } catch (err: any) {
-        setError("brand", {
-          message: "Error fetching brands, please refresh the page",
+  let getBrands = async () => {
+    clearErrors("brand");
+    try {
+      let response = await fetchBrands();
+      response && setBrands(response);
+    } catch (err) {
+      setError("brand", {
+        message: "Unable to fetch data, please hit the refresh button",
+      });
+    }
+  };
+  let getCategories = async () => {
+    clearErrors("category");
+    try {
+      let response = await fetchCategories();
+      if (response) {
+        setCategories(response);
+      } else {
+        setError("category", {
+          message: "Unable to fetch data, please hit the refresh button",
         });
       }
-    };
+    } catch (err) {
+      setError("category", {
+        message: "Unable to fetch data, please hit the refresh button",
+      });
+    }
+  };
+
+  useEffect(() => {
     getBrands();
-    // console.log(brands);
+    getCategories();
   }, []);
 
   const addProduct: SubmitHandler<addNewProduct> = async (data) => {
-    console.log(data);
+    data = { ...data, image: imageLink };
+    try {
+      console.log("sending");
+      let result = await axiosConfig.post(
+        "http://localhost:3000/api/products/add-product",
+        JSON.stringify({ data, userDetails }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authHeader,
+          },
+        }
+      );
+      if (result.status === 201) {
+        toastify({ type: "success", text: "Product successfully added" });
+        reset();
+      } else if (result.status === 200) {
+        toastify({ type: "success", text: "Product successfully updated" });
+        reset();
+      }
+    } catch (err: any) {
+      toastify({ type: "error", text: "Failed to add product" });
+      console.error(err.message);
+    }
   };
 
   return (
@@ -61,50 +112,46 @@ export function AddProduct() {
           <label htmlFor="productName" className="text-lg">
             Product Name<span className="text-red-500"> *</span>
           </label>
-          <label htmlFor="brand"></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <label htmlFor=""></label>
-          <input
-            {...register("name", {
-              required: "The name of the product is required",
-              minLength: {
-                value: 3,
-                message:
-                  "The name of the Product should be at least 3 characters",
-              },
-            })}
-            type="Text"
-            className="border-offBlue border bg-slate-50 w-full mt-2  ml-auto mr-auto p-1"
-            placeholder="e.g.  Men's Long Sleeve Cotton Jersey T-Shirt "
-            id="productName"
-          ></input>
+          <div className="flex items-center">
+            <input
+              {...register("name", {
+                required: "The name of the product is required",
+                minLength: {
+                  value: 3,
+                  message:
+                    "The name of the Product should be at least 3 characters",
+                },
+              })}
+              type="Text"
+              className="border-offBlue border bg-slate-50 w-full mt-2  ml-auto mr-auto p-1"
+              placeholder="e.g.  Men's Long Sleeve Cotton Jersey T-Shirt "
+              id="productName"
+            ></input>
+          </div>
           <div className="text-red-500">{errors && errors.name?.message}</div>
         </div>
         <div className="bg-slate-50 w-[80%] mt-5 ml-auto mr-auto">
           <label htmlFor="Brand" className="text-lg">
             Select Brand<span className="text-red-500"> *</span>
           </label>
-          <select
-            {...register("brand", {
-              required: "Brand is required",
-            })}
-            className="border-offBlue border bg-slate-50 w-full mt-2  ml-auto mr-auto p-1"
-            id="brand"
-          >
-            <option value="">Select Brand</option>
-            {brands &&
-              brands.map((brand: any) => (
-                <option key={brand._id} value={brand._id}>
-                  {brand.name}
-                </option>
-              ))}
-          </select>
+          <div className="flex items-center">
+            <select
+              {...register("brand", {
+                required: "Brand is required",
+              })}
+              className="border-offBlue border bg-slate-50 w-full mt-2  ml-auto mr-auto p-1"
+              id="brand"
+            >
+              <option value="">Select Brand</option>
+              {brands &&
+                brands.map((brand: any) => (
+                  <option key={brand._id} value={brand._id}>
+                    {brand.name}
+                  </option>
+                ))}
+            </select>
+            <RefreshIcon onClick={getBrands} />
+          </div>
           <div className="text-red-500">{errors && errors.brand?.message}</div>
         </div>
         <div className="flex bg-slate-50 w-[80%] mt-5 ml-auto mr-auto justify-between">
@@ -181,24 +228,53 @@ export function AddProduct() {
               )}
             </div>
             <div className="flex flex-col gap-3 justify-center">
-              <p className="text-lg" {...register("sizeVariants")}>
+              <p className="text-lg">
                 Size Variants<span className="text-red-500">*</span>
               </p>
               <div className="flex gap-5">
                 <label className="text-base">
-                  <input type="checkbox" value="S" className="mr-2"></input>S
+                  <input
+                    {...register("sizeVariants")}
+                    type="checkbox"
+                    value="S"
+                    className="mr-2"
+                  ></input>
+                  S
                 </label>
                 <label className="text-base">
-                  <input type="checkbox" value="M" className="mr-2"></input>M
+                  <input
+                    {...register("sizeVariants")}
+                    type="checkbox"
+                    value="M"
+                    className="mr-2"
+                  ></input>
+                  M
                 </label>
                 <label className="text-base">
-                  <input type="checkbox" value="L" className="mr-2"></input>L
+                  <input
+                    {...register("sizeVariants")}
+                    type="checkbox"
+                    value="L"
+                    className="mr-2"
+                  ></input>
+                  L
                 </label>
                 <label className="text-base">
-                  <input type="checkbox" value="XL" className="mr-2"></input>XL
+                  <input
+                    {...register("sizeVariants")}
+                    type="checkbox"
+                    value="XL"
+                    className="mr-2"
+                  ></input>
+                  XL
                 </label>
                 <label className="text-base">
-                  <input type="checkbox" value="XXL" className="mr-2"></input>
+                  <input
+                    {...register("sizeVariants")}
+                    type="checkbox"
+                    value="XXL"
+                    className="mr-2"
+                  ></input>
                   XXL
                 </label>
               </div>
@@ -206,7 +282,6 @@ export function AddProduct() {
                 <p className="text-red-500">{errors.sizeVariants.message}</p>
               )} */}
             </div>
-            <div></div>
           </div>
         </div>
         <div className="bg-slate-50 w-[80%] mt-5 ml-auto mr-auto flex gap-5 justify-between">
@@ -214,17 +289,22 @@ export function AddProduct() {
             <label htmlFor="category" className="text-lg">
               Select category <span className="text-red-500">*</span>
             </label>
-            <select
-              className="bg-slate-50 border border-offBlue w-full p-1"
-              {...register("category", {
-                required: "Product needs to have a category",
-              })}
-            >
-              <option value="Male">Shirts</option>
-              <option value="Female">Trousers</option>
-              <option value="Kids">Gowns</option>
-              <option value="Unisexual">Accessories</option>
-            </select>
+            <div className="flex items-center">
+              <select
+                className="bg-slate-50 border border-offBlue w-full p-1"
+                {...register("category", {
+                  required: "Product needs to have a category",
+                })}
+              >
+                {categories &&
+                  categories.map((item) => (
+                    <option key={item._id} value={item._id}>
+                      {item.type}
+                    </option>
+                  ))}
+              </select>
+              <RefreshIcon onClick={getCategories} />
+            </div>
             {errors.category && (
               <p className="text-red-500">{errors.category.message}</p>
             )}
@@ -233,10 +313,12 @@ export function AddProduct() {
             <label className="text-lg">
               Gender <span className="text-red-500">*</span>
             </label>
-            <select className="bg-slate-50 border border-offBlue w-full p-1">
+            <select
+              {...register("gender")}
+              className="bg-slate-50 border border-offBlue w-full p-1"
+            >
               <option value="male">Male</option>
-              <option value="male">Female</option>
-              <option value="Kids">Kids</option>
+              <option value="female">Female</option>
               <option value="Unisexual">Unisexual</option>
             </select>
           </div>
@@ -244,8 +326,9 @@ export function AddProduct() {
             <label htmlFor="featured" className="text-lg">
               Featured
               <input
+                {...register("featured")}
                 type="checkbox"
-                value="featured"
+                value="true"
                 className="ml-4 mr-2"
               ></input>
             </label>
@@ -275,3 +358,4 @@ export function AddProduct() {
     </div>
   );
 }
+// Remove the closing curly brace

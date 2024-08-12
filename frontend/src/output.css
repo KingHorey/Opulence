@@ -748,6 +748,10 @@ li a {
   margin-left: 0.75rem;
 }
 
+.ml-4{
+  margin-left: 1rem;
+}
+
 .ml-5{
   margin-left: 1.25rem;
 }
@@ -802,14 +806,6 @@ li a {
 
 .mt-auto{
   margin-top: auto;
-}
-
-.mt-4{
-  margin-top: 1rem;
-}
-
-.ml-4{
-  margin-left: 1rem;
 }
 
 .inline-block{
@@ -993,10 +989,6 @@ li a {
 
 .gap-5{
   gap: 1.25rem;
-}
-
-.gap-4{
-  gap: 1rem;
 }
 
 .self-end{

@@ -100,3 +100,7 @@ export interface addNewProduct {
 export interface getBrandData {
   [key: string]: string;
 }
+
+export interface categoriesData {
+  [key: string]: string;
+}
