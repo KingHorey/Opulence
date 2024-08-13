@@ -22,8 +22,6 @@ const loginUrl = `${import.meta.env.VITE_URL}${import.meta.env.VITE_LOGIN_ENDPOI
 
 // component for the login page
 export function LoginPage() {
-  // const { login } = useKindeAuth();
-
   const signIn = useSignIn();
   PageTitle({ title: "Login" });
   const {
@@ -162,10 +160,8 @@ export function LoginPage() {
             <a
               className="p-2 text-black text-center rounded-md border-slate-50 border-2 shadow-md  cursor-pointer"
               onClick={async () => {
-                window.location.href =
-                  "http://localhost:3000/api/auth/google-auth-verification";
+                window.location.href = `${import.meta.env.VITE_URL}/api/auth/google-auth-verification`;
               }}
-              // href="#"
               target="_blank"
             >
               <GoogleSVG />

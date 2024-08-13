@@ -38,7 +38,7 @@ export function OAuthSuccess() {
     <div className="h-screen w-screen items-center justify-center">
       <div className="h-full w-full flex flex-col items-center justify-center gap-5">
         <SucessSVG />
-        <p className="text-3xl font-semibold raleway">
+        <p className="textxl lg:text-3xl font-semibold raleway">
           Successfully authenticated
         </p>
       </div>
