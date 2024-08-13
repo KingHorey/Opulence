@@ -37,11 +37,6 @@ async function verifyUser(req: Request, res: Response, next: NextFunction) {
 	}
 }
 
-// productsRoute.get('/products', async (req: Request, res: Response) => {
-// 	const products = await productModel.find().populate('brand').populate('category').populate('type');
-// 	res.json(products);
-// });
-
 productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
 	try {
 		let result = await productModel.find().sort({createdAt: -1}).limit(10);

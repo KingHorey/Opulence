@@ -16,6 +16,8 @@ export interface User extends Document {
 	isAdmin?: boolean;
 	telephoneHome?: number;
 	telephonePersonal?: number;
+	googleId: string;
+	facebookId: string;
 }
 
 
@@ -40,7 +42,7 @@ const UserSchema = new Schema<User>({
 	},
 	password: {
 		type: String,
-		required: true
+		required: function ()  {return !this.googleId}
 	},
 	bookmarks: {
 		type: [Schema.Types.ObjectId]
@@ -62,6 +64,12 @@ const UserSchema = new Schema<User>({
 	},
 	telephonePersonal: {
 		type: Number
+	},
+	googleId: {
+		type: String
+	},
+	facebookId: {
+		type: String
 	}
 })
 

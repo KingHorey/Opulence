@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import { mongo } from "./connections/mongoConnection";
 import session from "express-session";
 import passport from "./routes/auth/strategy/localStrategy";
+import Gpassport from "./routes/auth/strategy/googleStrategy";
 import auth from "./routes/auth/auth.routes";
 const MemoryStore = require("memorystore")(session);
 import cookie from 'cookie-parser';
@@ -25,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
 app.use(
   cors({
-    origin: url,
+    origin: [url, "https://accounts.google.com/o/oauth2/v2/auth", "http://localhost:3000"],
     methods: ["POST", "PUT", "GET", "DELETE"],
     credentials: true,
   })
@@ -49,6 +50,8 @@ app.use(
 );
 app.use(passport.session());
 app.use(passport.initialize());
+app.use(Gpassport.session());
+app.use(Gpassport.initialize());
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

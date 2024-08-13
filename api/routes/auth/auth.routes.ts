@@ -1,6 +1,7 @@
 import { NextFunction, Router, Request, Response } from "express";
 import { findUserByEmail, registerUser } from "./auth.controller";
 import passport from "./strategy/localStrategy";
+import Gpassport from "./strategy/googleStrategy";
 import jwt from 'jsonwebtoken'
 import { config } from "dotenv";
 
@@ -8,6 +9,7 @@ config();
 const auth: Router = Router();
 
 
+const url: string = process.env.FRONTEND_URL as string
 
 // types
 interface Tokens {
@@ -74,5 +76,23 @@ auth.get("/auth-verification", (req: Request, res: Response) => {
     res.status(401).send("You are not logged in")
   }
 })
+
+
+auth.get("/google-auth-verification", preventLoginSignup,  Gpassport.authenticate('google'))
+
+auth.get("/verification/google", preventLoginSignup, Gpassport.authenticate('google', {failureRedirect: "/login"}), async (req: any, res: Response) => {
+  const tokens: Tokens = {
+    token: "",
+  };
+  const token = jwt.sign(
+    { token: req.user?._id.toString(), email: req.user?.email, isAdmin: req.user?.isAdmin },
+    process.env.JWT_TOKEN_SECRET as string,
+    { expiresIn: "30d" }
+  );
+  tokens.token = token;
+  // res.cookie('auth_token', response, {secure:true, httpOnly: true, maxAge: 400000000, sameSite: 'lax'})
+  res.redirect(`${url}/login/success?tokens=${token}`)
+}
+  )
 
 export default auth;
