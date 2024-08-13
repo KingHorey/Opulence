@@ -253,3 +253,70 @@ export function RefreshIcon({ onClick }: { onClick: () => void }) {
     </>
   );
 }
+
+export function SucessSVG() {
+  return (
+    <>
+      <svg
+        className="h-2/5 w-2/5"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        width=""
+        height=""
+        viewBox="0 0 256 256"
+        xmlSpace="preserve"
+      >
+        <defs></defs>
+        <g
+          style={{
+            stroke: "none",
+            strokeWidth: 0,
+            strokeDasharray: "none",
+            strokeLinecap: "butt",
+            strokeLinejoin: "miter",
+            strokeMiterlimit: 10,
+            fill: "#ffffff",
+            fillRule: "nonzero",
+            opacity: 1,
+          }}
+          transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+        >
+          <circle
+            cx="45"
+            cy="45"
+            r="45"
+            style={{
+              stroke: "none",
+              strokeWidth: 1,
+              strokeDasharray: "none",
+              strokeLinecap: "butt",
+              strokeLinejoin: "miter",
+              strokeMiterlimit: 10,
+              fill: "rgb(44,116,221)",
+              fillRule: "nonzero",
+              opacity: 1,
+            }}
+            transform="  matrix(1 0 0 1 0 0) "
+          />
+          <path
+            d="M 38.478 66 c -0.013 0 -0.026 0 -0.039 0 c -1.733 -0.012 -3.377 -0.771 -4.508 -2.085 L 20.453 48.263 c -2.162 -2.511 -1.879 -6.299 0.632 -8.462 c 2.51 -2.163 6.299 -1.879 8.462 0.632 l 8.991 10.441 l 21.967 -24.848 c 2.194 -2.485 5.988 -2.716 8.469 -0.521 c 2.483 2.195 2.717 5.986 0.521 8.469 l -26.522 30 C 41.834 65.263 40.197 66 38.478 66 z"
+            style={{
+              stroke: "none",
+              strokeWidth: 1,
+              strokeDasharray: "none",
+              strokeLinecap: "butt",
+              strokeLinejoin: "miter",
+              strokeMiterlimit: 10,
+              fill: "rgb(255,255,255)",
+              fillRule: "nonzero",
+              opacity: 1,
+            }}
+            transform=" matrix(1 0 0 1 0 0) "
+            strokeLinecap="round"
+          />
+        </g>
+      </svg>
+    </>
+  );
+}

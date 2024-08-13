@@ -22,6 +22,8 @@ const loginUrl = `${import.meta.env.VITE_URL}${import.meta.env.VITE_LOGIN_ENDPOI
 
 // component for the login page
 export function LoginPage() {
+  // const { login } = useKindeAuth();
+
   const signIn = useSignIn();
   PageTitle({ title: "Login" });
   const {
@@ -157,10 +159,18 @@ export function LoginPage() {
           </div>
           <p className="italic mr-auto ml-auto">or</p>
           <div className="flex flex-col gap-5 w-3/4 justify-center xxs: mr-auto xxs:ml-auto md:w-[30%] self-end ml-auto mt-auto mb-auto lg:mr-10">
-            <div className="p-2 text-black text-center rounded-md border-slate-50 border-2 shadow-md">
+            <a
+              className="p-2 text-black text-center rounded-md border-slate-50 border-2 shadow-md  cursor-pointer"
+              onClick={async () => {
+                window.location.href =
+                  "http://localhost:3000/api/auth/google-auth-verification";
+              }}
+              // href="#"
+              target="_blank"
+            >
               <GoogleSVG />
               <span className="text-sm ml-3">Sign in with Google</span>
-            </div>
+            </a>
             <div className="p-2 text-black text-center rounded-md shadow-md border-slate-50 border-2">
               <AppleSVG />
               <span className="text-sm ml-3">Sign in with Apple</span>

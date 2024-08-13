@@ -15,6 +15,7 @@ import { ContactPage } from "./pages/contactPage";
 import { OrdersPage } from "./pages/orders";
 import { AddBrandPage } from "./pages/addBrand";
 import { AddProduct } from "./pages/addProduct";
+import { OAuthSuccess } from "./pages/OAuthSuccess";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -40,6 +41,10 @@ function App() {
     {
       path: "/login",
       element: <ProtectedRoute />,
+    },
+    {
+      path: "/login/success",
+      element: <OAuthSuccess />,
     },
     {
       path: "/register",
@@ -84,6 +89,7 @@ function App() {
 
   return (
     // <>
+
     <AuthProvider store={store}>
       <AppProvider>
         <RouterProvider router={route}></RouterProvider>
