@@ -85,10 +85,14 @@ export function AddProduct() {
         }
       );
       if (result.status === 201) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
         toastify({ type: "success", text: "Product successfully added" });
         reset();
       } else if (result.status === 200) {
         toastify({ type: "success", text: "Product successfully updated" });
+        window.location.reload();
         reset();
       }
     } catch (err: any) {
@@ -295,6 +299,7 @@ export function AddProduct() {
                   required: "Product needs to have a category",
                 })}
               >
+                <option value="">Select Category</option>
                 {categories &&
                   categories.map((item) => (
                     <option key={item._id} value={item._id}>
@@ -316,6 +321,7 @@ export function AddProduct() {
               {...register("gender")}
               className="bg-slate-50 border border-offBlue w-full p-1"
             >
+              <option value="">Select</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="Unisexual">Unisexual</option>

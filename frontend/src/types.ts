@@ -65,6 +65,7 @@ export interface productsData {
   image: string;
   category: string;
   description: string;
+  brand: string;
 }
 
 export interface profileOrders {

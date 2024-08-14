@@ -29,16 +29,27 @@
 //   );
 // }
 
-export function Slider(props: { header: string }) {
+export function Slider({ header, image }: { header: string; image: string }) {
   return (
     <div className="w-full rounded-md mb-5 relative">
       <img
-        src="https://res.cloudinary.com/db2agmwon/image/upload/f_auto,q_auto/sklgid0vdiesz5zl4n1m"
+        src={image}
         className="w-full xs:h-[300px] md:h-[400px] lg:h-[500px] object-cover rounded-md"
       ></img>
       <p className="absolute text-slate-50 top-[50%] translate-y-[-50%] xxs:text-3xl md:text-6xl lg:text-8xl text-center font-bold poppins-bold stroke-black stroke-1">
-        {props.header}
+        {header}
       </p>
+    </div>
+  );
+}
+
+export function SmallerSlider({ image }: { image: string }) {
+  return (
+    <div className="relative border rounded-t-full h-full xs:h-full md:h-[300px] lg:h-[400px] xxs:w-[80px] md:w-full lg:w-full">
+      <img
+        src={image}
+        className="w-full xs:h-full md:h-[300px] lg:h-[400px] object-cover rounded-md rounded-t-full"
+      ></img>
     </div>
   );
 }

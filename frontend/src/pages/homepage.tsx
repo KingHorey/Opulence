@@ -16,7 +16,10 @@ export default function HomePage() {
   return (
     <PageContainer>
       <ResponsiveNavBar />
-      <Slider header="People will stare. Make it worth their while."></Slider>
+      <Slider
+        header="People will stare. Make it worth their while."
+        image="https://res.cloudinary.com/db2agmwon/image/upload/f_auto,q_auto/sklgid0vdiesz5zl4n1m"
+      ></Slider>
       <p className="font-bold text-3xl mb-3 zain-bold">Brands</p>
       <InfiniteBrandScroll />
       <ContextBlock

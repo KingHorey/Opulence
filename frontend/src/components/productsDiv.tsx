@@ -50,10 +50,15 @@ export function ProductDisplay({
   price: number;
 }) {
   return (
-    <div className="lg:w-[100px] lg:h-[120px]">
-      <img src={image} className="w-full h-[90%] object-cover"></img>
-      <p>{name}</p>
-      <p>{price}</p>
+    <div className="lg:min-w-[400px] lg:h-[500px] flex flex-col  h-full max-w-[512px] gap-4">
+      <img src={image} className="w-full h-[80%] object-cover"></img>
+      <div>
+        <p className="xxs:text-base lg:text-2xl">{name}</p>
+        <p className="text-xl text-slate-300 mt-5">
+          <span className="text-xl mr-1">&#8358;</span>
+          {price}
+        </p>
+      </div>
     </div>
   );
 }
