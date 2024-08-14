@@ -39,8 +39,14 @@ async function verifyUser(req: Request, res: Response, next: NextFunction) {
 
 productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
 	try {
-		let result = await productModel.find().sort({createdAt: -1}).limit(10);
-		res.status(200).json(result)
+		let startPage: number = parseInt(req.query.page as string) || 0
+		let limit: number = parseInt(req.query.limit as string) || 10
+		let countDocuments = await productModel.find().sort({createdAt: -1}).countDocuments()
+		let result = await productModel.find().sort({ createdAt: -1 }).skip(startPage * limit).limit(limit);
+		res.status(200).json({
+			data: result,
+			total: countDocuments
+		})
 	}
 	catch (err) {
 		res.status(400).json(err)
@@ -50,6 +56,7 @@ productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
 productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 	try {
 		let result = await categoryModel.find();
+
 		res.status(200).json(result)
 	}
 	catch (err) {
@@ -68,7 +75,7 @@ productsRoute.post("/add-product", verifyUser, async (req: Request, res: Respons
 	featured = featured == "true" ? true : false
 	try {
 		let findProduct = await productModel.findOne({ name: name }, { quantity: 1 })
-		if (findProduct?.quantity !== 0) {
+		if (findProduct?.quantity && findProduct?.quantity !== 0) {
 			let update = await productModel.findOneAndUpdate({ name: name }, { ...req.body.getBrandData }, { new: true })
 			if (update) {
 				return res.status(200).send("Produc successfully updated")
