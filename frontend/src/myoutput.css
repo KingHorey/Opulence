@@ -786,10 +786,6 @@ li a {
   margin-bottom: 1.25rem;
 }
 
-.mb-60{
-  margin-bottom: 15rem;
-}
-
 .mb-auto{
   margin-bottom: auto;
 }
@@ -874,18 +870,6 @@ li a {
   margin-top: auto;
 }
 
-.mt-40{
-  margin-top: 10rem;
-}
-
-.mt-32{
-  margin-top: 8rem;
-}
-
-.mt-28{
-  margin-top: 7rem;
-}
-
 .inline-block{
   display: inline-block;
 }
@@ -898,24 +882,12 @@ li a {
   display: flex;
 }
 
-.grid{
-  display: grid;
-}
-
 .hidden{
   display: none;
 }
 
 .h-0{
   height: 0px;
-}
-
-.h-1\/4{
-  height: 25%;
-}
-
-.h-2\/4{
-  height: 50%;
 }
 
 .h-2\/5{
@@ -971,6 +943,14 @@ li a {
   height: 100vh;
 }
 
+.h-3\/4{
+  height: 75%;
+}
+
+.h-2\/4{
+  height: 50%;
+}
+
 .w-2\/4{
   width: 50%;
 }
@@ -997,6 +977,10 @@ li a {
 
 .w-\[25\%\]{
   width: 25%;
+}
+
+.w-\[40\%\]{
+  width: 40%;
 }
 
 .w-\[80\%\]{
@@ -1026,6 +1010,10 @@ li a {
 
 .w-screen{
   width: 100vw;
+}
+
+.w-\[50\%\]{
+  width: 50%;
 }
 
 .max-w-\[300px\]{
@@ -1117,10 +1105,6 @@ li a {
 
 .gap-5{
   gap: 1.25rem;
-}
-
-.gap-y-10{
-  row-gap: 2.5rem;
 }
 
 .gap-y-5{
@@ -1218,11 +1202,6 @@ li a {
   border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
-.border-gray-300{
-  --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity));
-}
-
 .border-gray-400{
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
@@ -1291,10 +1270,6 @@ li a {
 .bg-black{
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-
-.bg-black\/90{
-  background-color: rgb(0 0 0 / 0.9);
 }
 
 .bg-blue-300{
@@ -1398,10 +1373,6 @@ li a {
 
 .p-2{
   padding: 0.5rem;
-}
-
-.p-4{
-  padding: 1rem;
 }
 
 .p-5{
@@ -1655,11 +1626,6 @@ li a {
 .hover\:bg-\[\#f1f1f2\]:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(241 241 242 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-black:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-blue-300:hover{
@@ -2061,6 +2027,10 @@ li a {
     width: 40%;
   }
 
+  .lg\:w-\[50\%\]{
+    width: 50%;
+  }
+
   .lg\:w-\[50px\]{
     width: 50px;
   }
@@ -2072,10 +2042,6 @@ li a {
 
   .lg\:w-full{
     width: 100%;
-  }
-
-  .lg\:grid-cols-2{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .lg\:grid-cols-3{

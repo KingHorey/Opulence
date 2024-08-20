@@ -63,9 +63,12 @@ export interface productsData {
   name: string;
   price: number;
   image: string;
-  category: string;
+  category: filterCategories;
   description: string;
-  brand: string;
+  brand: addNewBrand;
+  sizeVariants: string[];
+  colorVariants: string[];
+  linkName: string;
 }
 
 export interface profileOrders {

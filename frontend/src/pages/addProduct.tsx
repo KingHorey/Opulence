@@ -1,6 +1,6 @@
 import { axiosConfig } from "../misc/axiosConfig";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { addNewProduct, categoriesData, getBrandData } from "../types";
+import { addNewProduct, filterCategories, getBrandData } from "../types";
 import { useState, useEffect } from "react";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { LoadingAnimation, RefreshIcon } from "../components/svg";
@@ -35,7 +35,7 @@ export function AddProduct() {
 
   const [imageLink, setImageLink] = useState<string>("");
   const [brands, setBrands] = useState<getBrandData[]>([]);
-  const [categories, setCategories] = useState<categoriesData[]>([]);
+  const [categories, setCategories] = useState<filterCategories[]>([]);
 
   let getBrands = async () => {
     clearErrors("brand");

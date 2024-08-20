@@ -18,5 +18,5 @@ export default {
       grames: ["Grames", "sans-serif"],
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-gradient-mask-image")],
 };

@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import ResponsiveNavBar from "../components/responsiveNavBar";
 import { PageContainer } from "../components/pageContainer";
@@ -7,55 +7,57 @@ import { filterCategories, productsData } from "../types";
 import { ProductDisplay } from "../components/productsDiv";
 import { SmallerSlider } from "../components/slider";
 import { Footer } from "../components/footer";
-import Pagination from "../components/Pagination";
+// import Pagination from "../components/Pagination";
+import { fetchCategories, fetchProducts } from "../misc/externalCalls";
+import { GridContainer } from "../components/gridContainer";
 
 function NewArrivals() {
-  const [newArrivals, setNewArrivals] = useState<productsData[]>([]);
+  const [newArrivals, setNewArrivals] = useState<productsData[] | null>([]);
   const [categories, setCategories] = useState<null | filterCategories[]>([]);
   const [pageNumbers, setPageNumbers] = useState(1);
   const [productCategoriesState, setProductCategoriesState] = useState(true);
   const [productState, setProductState] = useState(true);
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_URL}/api/products/all-categories`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setCategories(response.data);
+    const handeCategories = async () => {
+      fetchCategories()
+        .then((response) => {
+          if (response) {
+            setCategories(response);
+            setProductCategoriesState(false);
+          }
+        })
+        .catch(() => {
+          setCategories(null);
           setProductCategoriesState(false);
-        } else {
-          setProductCategoriesState(false);
-        }
-      });
+        });
+    };
+    handeCategories();
   }, []);
+
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_URL}/api/products/new-arrivals`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          setTimeout(() => {
-            setProductState(false);
-          }, 10000);
-          setNewArrivals(response.data.data);
-          setPageNumbers(response.data.total);
-          // setProductState(false);
-        } else {
-          setTimeout(() => {
-            setProductState(false);
-          }, 10000);
-          setNewArrivals([]);
-          // setProductState(false);
-        }
-      })
-      .catch((err) => console.error(err.message));
+    const handleProducts = async () => {
+      fetchProducts()
+        .then((response) => {
+          const result =
+            response && response.length > 0
+              ? (response[0] as unknown as productsData[])
+              : null;
+          const total =
+            response && response.length > 0
+              ? (response[1] as unknown as number)
+              : null;
+          setProductState(false);
+          setNewArrivals(result ? result : []);
+          setPageNumbers(total ? total : 1);
+        })
+        .catch(() => {
+          setProductState(false);
+          setNewArrivals(null);
+        });
+    };
+    handleProducts();
   }, []);
+
   return (
     <PageContainer>
       <ResponsiveNavBar />
@@ -121,27 +123,31 @@ function NewArrivals() {
               </div>
             ) : (
               <div className="w-screen">
-                <div className="mr-auto ml-auto  xxs:grid xxs:grid-cols-2 lg:grid lg:grid-cols-3 md:gap-y-5  lg:gap-x-5 lg:gap-y-10 h-full xxs:gap-y-5 xxs:gap-x-5">
-                  {newArrivals.map((item) => {
-                    return (
-                      <a
-                        href={`/${item.brand}/${item._id}`}
-                        key={item._id}
-                        className="lg:h-full lg:w-fit h-[400px] xxs:w-fit md:w-[300px]"
-                      >
+                <GridContainer>
+                  {newArrivals &&
+                    newArrivals.map((item) => {
+                      return (
+                        // <a
+                        //   href={`/${item.brand}/${item._id}`}
+                        //   key={item._id}
+                        //   className="xxs:w-fit md:w-[300px]"
+                        // >
                         <ProductDisplay
+                          key={item._id}
                           name={item.name}
                           price={item.price}
                           image={item.image}
+                          link={`/${item.linkName}`}
                         />
-                      </a>
-                    );
-                  })}
-                </div>
+                        // </a>
+                      );
+                    })}
+                </GridContainer>
               </div>
             )}
           </div>
-          <Pagination currentPage={1} totalPages={pageNumbers}></Pagination>
+          {/* <Pagination currentPage={1} totalPages={pageNumbers}></Pagination> */}
+          {pageNumbers}
         </div>
       </div>
       <Footer />

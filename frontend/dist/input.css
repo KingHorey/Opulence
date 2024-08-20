@@ -281,4 +281,13 @@
     height: 20px;
     width: 20px;
   }
+
+  .shopGradient {
+    background: rgb(65, 122, 159);
+    background: linear-gradient(
+      347deg,
+      rgba(65, 122, 159, 1) 0%,
+      rgba(148, 187, 233, 1) 100%
+    );
+  }
 }

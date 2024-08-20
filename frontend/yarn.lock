@@ -3342,6 +3342,11 @@ swiper@^11.1.7:
   resolved "https://registry.npmjs.org/swiper/-/swiper-11.1.7.tgz"
   integrity sha512-2EpQvhgKb+DNbi8/i9uRXhddivcMZQxca341t2NZYV1xroCR2p4YtYd3azuqRQ4OEBGcG4nv3aN24O80bMipow==
 
+tailwind-gradient-mask-image@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/tailwind-gradient-mask-image/-/tailwind-gradient-mask-image-1.2.0.tgz"
+  integrity sha512-tUJaGhvqbJFiVKJu6EU5n//KvGdVvY3L3VOFNqjztk13+ifAk00pcSNHBTgHfUiBGOEzDn0gFRbSmsftUV1lXA==
+
 tailwindcss@^3.4.6:
   version "3.4.6"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.4.6.tgz"

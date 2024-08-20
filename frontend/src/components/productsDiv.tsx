@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export function SmallProductsPick(props: {
   title: string;
   image: string;
@@ -44,21 +46,30 @@ export function ProductDisplay({
   image,
   name,
   price,
+  link,
 }: {
   image: string;
   name: string;
   price: number;
+  link: string;
 }) {
   return (
-    <div className="lg:min-w-[400px] lg:h-[500px] flex flex-col  h-full max-w-[512px] gap-4">
-      <img src={image} className="w-full h-[80%] object-cover"></img>
-      <div>
-        <p className="xxs:text-base lg:text-2xl">{name}</p>
-        <p className="text-xl text-slate-300 mt-5">
-          <span className="text-xl mr-1">&#8358;</span>
-          {price}
-        </p>
+    <NavLink
+      to={link}
+      className="pl-2 pr-2 accent-blue-300 mr-2 xxs:text[.5rem] lg:text-[.9rem] raleway font-semibold ml-2 w-fit"
+    >
+      <div className="flex flex-col  h-full max-w-[300px] gap-4">
+        <img src={image} className="w-full h-[80%] object-cover"></img>
+        <div>
+          <p className="xxs:text-base lg:text-xs poppins-regular text-nowrap text-ellipsis overflow-hidden w-full">
+            {name}
+          </p>
+          <p className="text-sm text-slate-700 mt-1  poppins-regular-semibold">
+            <span className="text-sm raleway mr-1">&#8358;</span>
+            {price}
+          </p>
+        </div>
       </div>
-    </div>
+    </NavLink>
   );
 }

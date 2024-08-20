@@ -16,6 +16,9 @@ import { OrdersPage } from "./pages/orders";
 import { AddBrandPage } from "./pages/addBrand";
 import { AddProduct } from "./pages/addProduct";
 import { OAuthSuccess } from "./pages/OAuthSuccess";
+import { LoginPage } from "./pages/login";
+import Shop from "./pages/Shop";
+import { ProductDetails } from "./pages/Products/productDetails";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -40,7 +43,15 @@ function App() {
     },
     {
       path: "/login",
-      element: <ProtectedRoute />,
+      element: (
+        <ProtectedRoute>
+          <LoginPage />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/shop",
+      element: <Shop />,
     },
     {
       path: "/login/success",
@@ -48,7 +59,11 @@ function App() {
     },
     {
       path: "/register",
-      element: <RegisterPage />,
+      element: (
+        <ProtectedRoute>
+          <RegisterPage />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/new-arrivals",
@@ -82,6 +97,10 @@ function App() {
               element: <AddProduct />,
             },
           ],
+        },
+        {
+          path: "/dis",
+          element: <ProductDetails />,
         },
       ],
     },

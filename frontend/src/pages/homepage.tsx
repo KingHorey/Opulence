@@ -26,7 +26,7 @@ export default function HomePage() {
         title={"Ensuring unparalleled customer satisfaction"}
         quote={"Delivering happiness with true and original merchandise"}
       />
-      <div className="flex gap-2 mt-10 mb-20">
+      <div className="flex gap-2 mt-32 mb-20">
         <div>
           <SmallDivs path="/svg/hours-clock-24-hours-stopwatch-time-timer-watch-svgrepo-com.svg" />
           <p className="font-bold lg:text-xl xxs:text-xs md:text-sm">
@@ -66,22 +66,22 @@ export default function HomePage() {
           </p>
         </div>
       </div>
-      <div className="mb-10">
+      <div className="mt-28">
         <PageHeaders title="Just for you" />
         <div className="flex md:flex-row xxs:flex-col gap-10 xxs:items-center">
           <SmallProductsPick
             title="Top Picks"
-            image="/images/240725_21h36m59s_screenshot.png"
+            image="/images/carlos-vaz-KP4bxnxAilU-unsplash.jpg"
             link="/"
           />
           <SmallProductsPick
-            title="Casuals"
-            image="/images/240725_21h37m26s_screenshot.png"
+            title="Sneakers"
+            image="/images/sj-k-ottH-yojk-unsplash.jpg"
             link="/"
           />
           <SmallProductsPick
-            title="Top Picks"
-            image="/images/240725_21h36m59s_screenshot.png"
+            title="Wristwatches"
+            image="/images/hiroshi-tsubono-7Iid4mkhh98-unsplash.jpg"
             link="/"
           />
           <SmallProductsPick
@@ -91,27 +91,27 @@ export default function HomePage() {
           />
         </div>
       </div>
-      <div className="mt-20 mb-10">
+      <div className="mt-28 mb-10">
         <PageHeaders title="Featured Products" />
         <div className="inline-block md:flex-row xxs:flex-col gap-10 xxs:items-center whitespace-nowrap overflow-x-scroll  last:mr-0">
           <LargeProductsPick
             title="Top Picks"
-            image="/images/240725_21h36m59s_screenshot.png"
+            image="/images/eliud-gil-samaniego-_1bPErRSKco-unsplash(1).jpg"
+            link="/"
+          />
+          <LargeProductsPick
+            title="Hoodies"
+            image="/images/erkan-kirdar-ydSTXp0ROdI-unsplash.jpg"
+            link="/"
+          />
+          <LargeProductsPick
+            title="Formal Wears"
+            image="/images/alexandre-trouve-tATXQ3u9wJc-unsplash.jpg"
             link="/"
           />
           <LargeProductsPick
             title="Casuals"
-            image="/images/240725_21h37m26s_screenshot.png"
-            link="/"
-          />
-          <LargeProductsPick
-            title="Top Picks"
-            image="/images/240725_21h36m59s_screenshot.png"
-            link="/"
-          />
-          <LargeProductsPick
-            title="Casuals"
-            image="/images/240725_21h37m26s_screenshot.png"
+            image="/images/clarisse-meyer-EqK8AOpesjw-unsplash.jpg"
             link="/"
           />
         </div>

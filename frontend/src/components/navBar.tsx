@@ -32,7 +32,7 @@ export function NavBar(): JSX.Element {
               Shop
             </NavLink>
           </li>
-          <li>
+          {/* <li>
             <NavLink
               to="/shop"
               className={({ isActive }) => {
@@ -43,7 +43,7 @@ export function NavBar(): JSX.Element {
             >
               Most Wanted
             </NavLink>
-          </li>
+          </li> */}
           <li>
             <NavLink
               to="/new-arrivals"
@@ -147,14 +147,14 @@ export function SmallNavBar(): JSX.Element {
                   Shop
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink
                   to="/shop"
                   className="capitalize lg:text-base sm:text-sm"
                 >
                   Most Wanted
                 </NavLink>
-              </li>
+              </li> */}
               <li>
                 <NavLink
                   to="/shop"
