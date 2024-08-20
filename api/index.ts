@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookie());
 app.use(
   cors({
-    origin: [url, "https://accounts.google.com/o/oauth2/v2/auth", "http://localhost:3000"],
+    origin: url,
     methods: ["POST", "PUT", "GET", "DELETE"],
     credentials: true,
   })

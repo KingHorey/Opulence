@@ -12,7 +12,8 @@ interface Product extends Document {
 	category: Types.ObjectId;
 	featured: boolean;
 	gender: string[];
-	createdAt: Date
+	createdAt: Date;
+	linkName: string;
 }
 
 interface ProductType extends Document {
@@ -58,6 +59,10 @@ const ProductSchema = new Schema<Product>({
 		type: Schema.Types.ObjectId,
 		required: true,
 		ref: 'Category'
+	},
+	linkName: {
+		type: String,
+		required: true
 	},
 	featured: {
 		type: Boolean,

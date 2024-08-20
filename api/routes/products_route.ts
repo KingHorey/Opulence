@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { userModel } from '../models/users/user.models';
 import { brandModel } from '../models/brands/brand.models';
+import slugify from 'slugify';
 
 /**
  * Endpoints for all product related processes
@@ -42,7 +43,7 @@ productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
 		let startPage: number = parseInt(req.query.page as string) || 0
 		let limit: number = parseInt(req.query.limit as string) || 10
 		let countDocuments = await productModel.find().sort({createdAt: -1}).countDocuments()
-		let result = await productModel.find().sort({ createdAt: -1 }).skip(startPage * limit).limit(limit);
+		let result = await productModel.find().populate('brand').populate('category').sort({ createdAt: -1 }).skip(startPage * limit).limit(limit);
 		res.status(200).json({
 			data: result,
 			total: countDocuments
@@ -66,6 +67,7 @@ productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 
 productsRoute.post("/add-product", verifyUser, async (req: Request, res: Response) => {
 	let { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category, featured } = req.body.data;
+	const linkName = slugify(name)
 	colorVariants = colorVariants.split(" ");
 	colorVariants = colorVariants.map((e: string) => {
 		let f_index = e.slice(0,1).toUpperCase()
@@ -78,7 +80,7 @@ productsRoute.post("/add-product", verifyUser, async (req: Request, res: Respons
 		if (findProduct?.quantity && findProduct?.quantity !== 0) {
 			let update = await productModel.findOneAndUpdate({ name: name }, { ...req.body.getBrandData }, { new: true })
 			if (update) {
-				return res.status(200).send("Produc successfully updated")
+				return res.status(200).send("Product successfully updated")
 			}
 			else {
 				return res.status(500).send("Failed to update product")
@@ -86,7 +88,7 @@ productsRoute.post("/add-product", verifyUser, async (req: Request, res: Respons
 		}
 		else {
 			try {
-				let verifyProduct = new productModel({ name, brand, price, quantity, description, image, sizeVariants, colorVariants, category })
+				let verifyProduct = new productModel({ name, brand, price, quantity, description, image, sizeVariants, colorVariants, category, linkName })
 				await verifyProduct.save()
 				res.status(201).send("Product successfully added")
 			} catch (err: any) {
@@ -146,5 +148,26 @@ productsRoute.post("/add-brand", verifyUser, async (req: Request, res: Response)
 		}
 	} catch (err) {
 		return res.status(500).send("Failed to add brand")
+	}
+})
+
+
+/**
+ * endpoint for particular product
+ */
+
+productsRoute.get("/:product", async (req: Request, res: Response) => {
+	const product = req.params.product;
+	try {
+		let result = await productModel.findOne({ linkName: product }).populate('brand').populate('category')
+		if (result) {
+
+			res.status(200).json(result)
+		}
+		else {
+			res.status(404).send("Product not found")
+		}
+	} catch (err) {
+		res.status(400).json(err)
 	}
 })
