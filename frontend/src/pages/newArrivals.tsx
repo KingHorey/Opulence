@@ -36,24 +36,32 @@ function NewArrivals() {
 
   useEffect(() => {
     const handleProducts = async () => {
-      fetchProducts()
-        .then((response) => {
-          const result =
-            response && response.length > 0
-              ? (response[0] as unknown as productsData[])
-              : null;
-          const total =
-            response && response.length > 0
-              ? (response[1] as unknown as number)
-              : null;
-          setProductState(false);
-          setNewArrivals(result ? result : []);
-          setPageNumbers(total ? total : 1);
-        })
-        .catch(() => {
-          setProductState(false);
-          setNewArrivals(null);
-        });
+      if (localStorage.getItem("product")) {
+        const data = localStorage.getItem("product");
+        setProductState(false);
+        setNewArrivals(data ? JSON.parse(data) : []);
+      } else {
+        fetchProducts()
+          .then((response) => {
+            const result =
+              response && response.length > 0
+                ? (response[0] as unknown as productsData[])
+                : null;
+            const total =
+              response && response.length > 0
+                ? (response[1] as unknown as number)
+                : null;
+            setProductState(false);
+            setNewArrivals(result ? result : []);
+            let data = result ? result : [];
+            localStorage.setItem("product", JSON.stringify(data));
+            setPageNumbers(total ? total : 1);
+          })
+          .catch(() => {
+            setProductState(false);
+            setNewArrivals(null);
+          });
+      }
     };
     handleProducts();
   }, []);

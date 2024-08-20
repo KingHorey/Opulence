@@ -35,10 +35,6 @@ export function ProductDetails() {
     fetchInfo();
   }, []);
 
-  useEffect(() => {
-    console.log(productDetails);
-  }, [productDetails]);
-
   return (
     <PageContainer>
       <ResponsiveNavBar />
@@ -87,11 +83,11 @@ export function ProductDetails() {
               <img src="/svg/hearts.svg" className="inline-block ml-3"></img>
             </button>
           </div>
-          <div className="text-xl raleway w-full cursor-pointer">
+          <div className="text-xl raleway w-full cursor-pointer select-none">
             Reviews
             <img
               src="/svg/arrow-down.svg"
-              className="inline-block ml-3 cursor-pointer"
+              className="inline-block ml-3 cursor-pointer select-none"
             ></img>
           </div>
         </div>

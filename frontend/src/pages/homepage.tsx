@@ -10,6 +10,7 @@ import { Slider } from "../components/slider";
 import { PageTitle } from "../misc/pageTitle";
 import { PageContainer } from "../components/pageContainer";
 import ResponsiveNavBar from "../components/responsiveNavBar";
+import { NavLink } from "react-router-dom";
 
 export default function HomePage() {
   PageTitle({ title: "Welcome To Opulence" });
@@ -102,8 +103,8 @@ export default function HomePage() {
           <LargeProductsPick
             title="Hoodies"
             image="/images/erkan-kirdar-ydSTXp0ROdI-unsplash.jpg"
-            link="/"
-          />
+            link="/shop/hoodies"
+          ></LargeProductsPick>
           <LargeProductsPick
             title="Formal Wears"
             image="/images/alexandre-trouve-tATXQ3u9wJc-unsplash.jpg"
