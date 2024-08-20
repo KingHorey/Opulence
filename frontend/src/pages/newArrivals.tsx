@@ -137,7 +137,7 @@ function NewArrivals() {
                           name={item.name}
                           price={item.price}
                           image={item.image}
-                          link={`/${item.linkName}`}
+                          link={`/product/${item.linkName}`}
                         />
                         // </a>
                       );

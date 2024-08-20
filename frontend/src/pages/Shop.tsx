@@ -52,7 +52,7 @@ function Shop() {
                 image={product.image}
                 price={product.price}
                 name={product.name}
-                link={product.linkName}
+                link={`/product/${product.linkName}`}
               />
             ))}
         </GridContainer>

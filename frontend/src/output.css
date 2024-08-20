@@ -1631,6 +1631,10 @@ li a {
   transition-duration: 500ms;
 }
 
+.ease-in-out{
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 @font-face {
   font-family: "Cerotta";
 
@@ -1645,6 +1649,11 @@ li a {
 
 .last\:mr-0:last-child{
   margin-right: 0px;
+}
+
+.hover\:border-black:hover{
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .hover\:bg-\[\#3B6F91\]:hover{
@@ -1695,6 +1704,11 @@ li a {
 .hover\:bg-slate-500:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-300:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
 }
 
 .hover\:text-gray-800:hover{
@@ -1933,6 +1947,10 @@ li a {
 
   .md\:w-full{
     width: 100%;
+  }
+
+  .md\:w-2\/4{
+    width: 50%;
   }
 
   .md\:flex-row{

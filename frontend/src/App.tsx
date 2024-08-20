@@ -98,11 +98,11 @@ function App() {
             },
           ],
         },
-        {
-          path: "/dis",
-          element: <ProductDetails />,
-        },
       ],
+    },
+    {
+      path: "/product/:id",
+      element: <ProductDetails />,
     },
   ]);
 

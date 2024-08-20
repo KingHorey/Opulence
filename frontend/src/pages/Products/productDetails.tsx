@@ -1,46 +1,78 @@
 import { Footer } from "../../components/footer";
 import { PageContainer } from "../../components/pageContainer";
 import ResponsiveNavBar from "../../components/responsiveNavBar";
-import { WhiteCartIcon } from "../../components/svg";
+import { LoadingAnimation, WhiteCartIcon } from "../../components/svg";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProductInfo } from "../../misc/externalCalls";
+import { productsData } from "../../types";
 
 export function ProductDetails() {
+  let { id } = useParams();
+  const params: string = id as string;
+  const [productDetails, setProductDetails] = useState<productsData>();
+  const [isLoading, setLoadingState] = useState(true);
+  const [errors, setErrors] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      getProductInfo(params)
+        .then((response) => {
+          if (response) {
+            const details: productsData = response as unknown as productsData;
+            setProductDetails(details);
+          } else {
+            setErrors(true);
+          }
+        })
+        .catch(() => {
+          setErrors(true);
+        })
+        .finally(() => {
+          setLoadingState(false);
+        });
+    };
+    fetchInfo();
+  }, []);
+
+  useEffect(() => {
+    console.log(productDetails);
+  }, [productDetails]);
+
   return (
     <PageContainer>
       <ResponsiveNavBar />
-      <div className="flex  lg:flex-row xxs:flex-col mt-20 mb-60 h-1/4">
-        <div className="rounded-lg w-3/4 h-2/4">
-          <img
-            src="./images/mukuko-studio-mU88MlEFcoU-unsplash.jpg"
-            className="rounded-lg h-full w-full object-cover"
-          ></img>
-        </div>
-        <div className="w-2/4 flex flex-col items-center gap-y-10 p-5 overflow-y-scroll">
-          <div className="w-full">
-            <p className="text-3xl ">Lorem Ipsum</p>
-            <p className="text-gray-500">$40.54</p>
-            <p>Category: Unisexual</p>
+      <div className="flex  md:flex-row xxs:flex-col mt-20 mb-60 h-1/4">
+        {isLoading ? (
+          <LoadingAnimation />
+        ) : errors ? (
+          <p>Error fetching data</p>
+        ) : (
+          <div className="rounded-lg xxs:w-full lg:w-3/4 h-2/4">
+            <img
+              src={productDetails && productDetails.image}
+              className="rounded-lg h-full w-full object-cover"
+            ></img>
           </div>
-          <p className="text-2xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea quam
-            illo odio, consectetur accusantium placeat ut officia ipsam
-            explicabo et alias debitis totam odit! Fugiat soluta non esse harum
-            molestias?
-          </p>
+        )}
+        <div className="xxs:w-full lg:w-2/4 flex flex-col items-center gap-y-10 p-5 overflow-y-scroll">
+          <div className="w-full">
+            <p className="text-3xl ">{productDetails?.name}</p>
+            <p className="text-gray-500">{productDetails?.price}</p>
+            <p>Category: {productDetails?.category.type}</p>
+          </div>
+          <p className="text-base raleway">{productDetails?.description}</p>
           <div className="text-base raleway w-full mb-10">
             Select Size
             <div className="grid lg:grid-cols-2 gap-5 mt-5">
-              <div className="text-center raleway p-2 border border-gray-300  rounded-lg">
-                XL
-              </div>
-              <div className="text-center raleway p-2 border border-gray-300  rounded-lg">
-                XL
-              </div>
-              <div className="text-center raleway p-2 border border-gray-300  rounded-lg">
-                XL
-              </div>
-              <div className="text-center raleway p-2 border border-gray-300  rounded-lg">
-                XL
-              </div>
+              {productDetails?.sizeVariants.map((item, count) => (
+                <div
+                  className="text-center raleway p-2 border border-gray-300  rounded-lg cursor-pointer hover:bg-gray-300 duration-500 transition-all "
+                  key={count}
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
           <div className="w-full flex flex-col items-center gap-y-10">
@@ -50,15 +82,15 @@ export function ProductDetails() {
                 <WhiteCartIcon />
               </span>
             </button>
-            <button className="border border-black rounded-full text-black w-full p-4 text-base raleway  font-bold">
+            <button className="border border-gray-300 hover:border-black durartion-500 transition-all ease-in-out rounded-full text-black w-full p-4 text-base raleway  font-bold">
               Add To Favourites
-              <img src="./svg/hearts.svg" className="inline-block ml-3"></img>
+              <img src="/svg/hearts.svg" className="inline-block ml-3"></img>
             </button>
           </div>
           <div className="text-xl raleway w-full cursor-pointer">
             Reviews
             <img
-              src="./svg/arrow-down.svg"
+              src="/svg/arrow-down.svg"
               className="inline-block ml-3 cursor-pointer"
             ></img>
           </div>

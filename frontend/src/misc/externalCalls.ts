@@ -110,6 +110,20 @@ export async function fetchProducts(): Promise<productsData[] | null> {
   }
 }
 
-// export async function googleSignIn() {
-//   axios.
-// }
+export async function getProductInfo(
+  id: string
+): Promise<productsData[] | null> {
+  try {
+    let response = await axiosConfig.get(
+      `${import.meta.env.VITE_URL}/api/products/${id}`
+    );
+    if (response.status === 200) {
+      // console.log(response.data);
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+}
