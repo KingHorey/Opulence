@@ -45,7 +45,8 @@ const UserSchema = new Schema<User>({
 		required: function ()  {return !this.googleId}
 	},
 	bookmarks: {
-		type: [Schema.Types.ObjectId]
+		type: [Schema.Types.ObjectId],
+		ref: 'Bookmarks'
 	},
 	profilePicture: {
 		type: String,

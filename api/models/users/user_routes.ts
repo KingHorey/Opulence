@@ -2,6 +2,9 @@ import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { config } from 'dotenv'
 import { userModel } from "./user.models";
+import { productModel } from "../products/product.models";
+import { verifyAction } from "./user_controller";
+
 
 config();
 
@@ -104,4 +107,58 @@ userRoute.put("/update-personal-information", (req: Request, res: Response) => {
 	}
 })
 
+userRoute.get("/bookmarks", (req, res) => {
+	// console.log("verified")
+	const {email} = req.query
+	userModel.findOne({ email: email }, { bookmarks: 1 }).then((response) => {
+		res.status(200).json(response)
+	})
+		.catch(err => {
+		console.log(err.message)
+	})
+})
+
+userRoute.post("/add-bookmark", async (req, res) => {
+	const { email, productId } = req.body
+	try {
+		let productResult = await productModel.findById(productId)
+		if (productResult) {
+			userModel.findOneAndUpdate({ email: email }, {
+				$push: {
+					bookmarks: productResult._id
+				}
+			}, { new: true })
+				.then((data) => {
+					res.status(200).json(data)
+				})
+				.catch((err) => {
+					console.log(err.message)
+					res.status(500).json({ message: err.message })
+				})
+		}
+		else {
+			res.status(404).json({ message: "Product not found" })
+		}
+	}
+	catch (err: any) {
+		res.status(500).json({ message: err.message })
+	}
+})
+
+
+userRoute.post("/remove-bookmark", verifyAction, async (req: Request, res: Response) => {
+	const { email, productId } = req.body;
+	try {
+		let result = await userModel.updateOne({ email: email }, { $pull: { bookmarks: productId } }, { new: true })
+		if (result) {
+			res.status(200).json({ message: "Bookmark removed successfully" })
+		}
+		else {
+			res.status(404).json({ message: "Bookmark not found" })
+		}
+	}
+	catch (err: any) {
+		res.status(500).json({ message: err.message })
+	}
+})
 export default userRoute;

@@ -17,7 +17,7 @@ config();
 
 const secretToken = process.env.JWT_TOKEN_SECRET as string;
 
-async function verifyUser(req: Request, res: Response, next: NextFunction) {
+export async function verifyUser(req: Request, res: Response, next: NextFunction) {
 	const token = req.headers.authorization?.split(' ')[1]
 	if (!token) {
 		return res.status(401).json({ message: "Unauthorized" })
@@ -67,7 +67,7 @@ productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 
 productsRoute.post("/add-product", verifyUser, async (req: Request, res: Response) => {
 	let { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category, featured } = req.body.data;
-	const linkName = slugify(name)
+	const linkName = slugify(name.strip())
 	colorVariants = colorVariants.split(" ");
 	colorVariants = colorVariants.map((e: string) => {
 		let f_index = e.slice(0,1).toUpperCase()
@@ -161,7 +161,6 @@ productsRoute.get("/:product", async (req: Request, res: Response) => {
 	try {
 		let result = await productModel.findOne({ linkName: product }).populate('brand').populate('category')
 		if (result) {
-
 			res.status(200).json(result)
 		}
 		else {
