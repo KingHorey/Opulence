@@ -58,6 +58,10 @@ export interface filterCategories {
   type: string;
 }
 
+export interface BookarksData {
+  user: string;
+  products: string[];
+}
 export interface productsData {
   _id: string;
   name: string;
@@ -69,6 +73,7 @@ export interface productsData {
   sizeVariants: string[];
   colorVariants: string[];
   linkName: string;
+  bookmarks?: BookarksData;
 }
 
 export interface profileOrders {

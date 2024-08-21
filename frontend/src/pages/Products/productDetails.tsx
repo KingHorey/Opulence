@@ -6,6 +6,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductInfo } from "../../misc/externalCalls";
 import { productsData } from "../../types";
+import { axiosConfig } from "../../misc/axiosConfig";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { toastify } from "../../components/toastify";
 
 export function ProductDetails() {
   let { id } = useParams();
@@ -13,6 +17,11 @@ export function ProductDetails() {
   const [productDetails, setProductDetails] = useState<productsData>();
   const [isLoading, setLoadingState] = useState(true);
   const [errors, setErrors] = useState<boolean>(false);
+  const [bookmark, setBookmark] = useState<boolean>(false);
+  const authHeader = useAuthHeader();
+  const authUser: { email: string; isAdmin: boolean } | null = useAuthUser();
+
+  const email = authUser?.email;
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -34,6 +43,7 @@ export function ProductDetails() {
     };
     fetchInfo();
   }, []);
+
 
   return (
     <PageContainer>
@@ -62,12 +72,13 @@ export function ProductDetails() {
             Select Size
             <div className="grid lg:grid-cols-2 gap-5 mt-5">
               {productDetails?.sizeVariants.map((item, count) => (
-                <div
+                <button
                   className="text-center raleway p-2 border border-gray-300  rounded-lg cursor-pointer hover:bg-gray-300 duration-500 transition-all "
                   key={count}
+                  // onClick={}
                 >
                   {item}
-                </div>
+                </button>
               ))}
             </div>
           </div>
@@ -78,9 +89,19 @@ export function ProductDetails() {
                 <WhiteCartIcon />
               </span>
             </button>
-            <button className="border border-gray-300 hover:border-black durartion-500 transition-all ease-in-out rounded-full text-black w-full p-4 text-base raleway  font-bold">
-              Add To Favourites
-              <img src="/svg/hearts.svg" className="inline-block ml-3"></img>
+            <button
+              className="border border-gray-300 hover:border-black durartion-500 transition-all ease-in-out rounded-full text-black w-full p-4 text-base raleway  font-bold"
+              onClick={handleBookmark}
+            >
+              {bookmark ? "Remove From Favourites" : "Add To Favourites"}
+              {bookmark ? (
+                <img
+                  src="/svg/hearts_filled.svg"
+                  className="inline-block ml-3"
+                ></img>
+              ) : (
+                <img src="/svg/hearts.svg" className="inline-block ml-3"></img>
+              )}
             </button>
           </div>
           <div className="text-xl raleway w-full cursor-pointer select-none">
