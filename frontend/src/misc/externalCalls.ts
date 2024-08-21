@@ -6,6 +6,7 @@ import {
   productsData,
 } from "../types";
 import { ResponseData } from "../types";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 export function getEmailAvailability(email: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
@@ -124,6 +125,30 @@ export async function getProductInfo(
       return null;
     }
   } catch {
+    return null;
+  }
+}
+
+export async function getBookmarks() {
+  const authHeader = useAuthHeader();
+  console.log("Calling bookmarks");
+  console.log(authHeader);
+  try {
+    let response = await axiosConfig.get(
+      `${import.meta.env.VITE_URL}/api/user/bookmarks`,
+      {
+        headers: {
+          Authorization: authHeader,
+        },
+      }
+    );
+    if (response.status === 200) {
+      console.log("response ", response.data);
+      return response.data;
+    } else {
+      return null;
+    }
+  } catch (err: any) {
     return null;
   }
 }
