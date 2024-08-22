@@ -744,6 +744,18 @@ li a {
   top: 50%;
 }
 
+.bottom-\[10px\]{
+  bottom: 10px;
+}
+
+.right-1{
+  right: 0.25rem;
+}
+
+.top-\[2px\]{
+  top: 2px;
+}
+
 .z-\[999\]{
   z-index: 999;
 }
@@ -768,6 +780,11 @@ li a {
 .my-auto{
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.mx-3{
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
 }
 
 .mb-10{
@@ -1050,6 +1067,10 @@ li a {
 
 .w-screen{
   width: 100vw;
+}
+
+.w-\[90px\]{
+  width: 90px;
 }
 
 .max-w-\[300px\]{
@@ -1911,6 +1932,10 @@ li a {
 }
 
 @media (min-width: 768px){
+  .md\:top-1{
+    top: 0.25rem;
+  }
+
   .md\:mt-0{
     margin-top: 0px;
   }
@@ -2021,6 +2046,10 @@ li a {
 }
 
 @media (min-width: 1024px){
+  .lg\:top-2{
+    top: 0.5rem;
+  }
+
   .lg\:ml-5{
     margin-left: 1.25rem;
   }
