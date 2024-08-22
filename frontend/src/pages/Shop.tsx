@@ -42,7 +42,7 @@ function Shop() {
         header=""
         image="./images/freestocks-_3Q3tsJ01nc-unsplash.jpg"
       ></Slider>
-      <div className="flex gap-y-5 mt-10">
+      <div className="flex gap-y-5 mt-10 mb-10">
         <Filter />
         <GridContainer>
           {shopProducts !== null &&

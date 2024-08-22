@@ -20,6 +20,7 @@ import { LoginPage } from "./pages/login";
 import Shop from "./pages/Shop";
 import { ProductDetails } from "./pages/Products/productDetails";
 import { Categories } from "./pages/Products/categories";
+import { CartPage } from "./pages/cartPage";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -53,6 +54,10 @@ function App() {
     {
       path: "/shop",
       element: <Shop />,
+    },
+    {
+      path: "/cart",
+      element: <CartPage />,
     },
     {
       path: "/shop/:name",

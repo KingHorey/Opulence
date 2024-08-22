@@ -67,17 +67,14 @@ export function ProductDetails() {
   useEffect(() => {
     const getBookmarks = async () => {
       try {
-        let response = await axiosConfig.get(
-          `${import.meta.env.VITE_URL}/api/user/bookmarks`,
-          {
-            headers: {
-              Authorization: authHeader,
-            },
-            params: {
-              email: email,
-            },
-          }
-        );
+        let response = await axiosConfig.get(`api/user/bookmarks`, {
+          headers: {
+            Authorization: authHeader,
+          },
+          params: {
+            email: email,
+          },
+        });
         if (response.status === 200) {
           return response.data;
         } else {
@@ -93,14 +90,11 @@ export function ProductDetails() {
   useEffect(() => {
     const checkBookmark = async () => {
       try {
-        let response = await axiosConfig.get(
-          `${import.meta.env.VITE_URL}/api/user/bookmarks`,
-          {
-            params: {
-              email: email,
-            },
-          }
-        );
+        let response = await axiosConfig.get(`/api/user/bookmarks`, {
+          params: {
+            email: email,
+          },
+        });
         if (response.status === 200) {
           if (response.data.bookmarks.includes(productDetails?._id)) {
             setBookmark(true);

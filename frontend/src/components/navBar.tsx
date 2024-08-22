@@ -2,14 +2,18 @@ import { CartIcon, UserIcon } from "./svg";
 import { NavLink } from "react-router-dom";
 import { FormEvent, useState } from "react";
 import { useAuthStatus } from "../misc/customHooks";
+// import { useForm, SubmitHandler } from "react-hook-form";
+import { useSelector } from "react-redux";
 
 export function NavBar(): JSX.Element {
+  // console.log(cartSlice.)
+  const cart = useSelector((state: any) => state.cart.cartItems.length);
   const isAuthenticated = useAuthStatus();
   function handleSearch(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
   }
   return (
-    <nav className="flex w-full mb-10">
+    <nav className="flex w-full mb-10 mt-2">
       <ul className="flex w-full justify-between items-center">
         <li>
           <NavLink
@@ -32,18 +36,6 @@ export function NavBar(): JSX.Element {
               Shop
             </NavLink>
           </li>
-          {/* <li>
-            <NavLink
-              to="/shop"
-              className={({ isActive }) => {
-                return isActive
-                  ? "capitalize sm:text-sm lg:text-base bg-black text-white rounded-md p-1"
-                  : "capitalize sm:text-sm lg:text-base";
-              }}
-            >
-              Most Wanted
-            </NavLink>
-          </li> */}
           <li>
             <NavLink
               to="/new-arrivals"
@@ -82,18 +74,25 @@ export function NavBar(): JSX.Element {
           </li>
         </div>
         <div className="flex ml-10">
-          <form onSubmit={handleSearch} className="mr-3">
+          <form onSubmit={handleSearch} className="mr-3 relative">
             <input
               type="search"
-              className="border border-gray-400 rounded-md relative w-[90px]"
+              className="border border-gray-400 rounded-md   w-40 px-2 relative"
               placeholder="search"
             ></input>
-            <button className="inline absolute h-full top-[2px] mr-2">
-              <i className="fa-solid fa-magnifying-glass absolute right-1 h-fit lg:top-2 md:top-1"></i>
+            <button className="inline absolute h-fit top-0 mr-2  right-0">
+              <i className="fa-solid fa-magnifying-glass  h-full w-full mt-1"></i>
             </button>
           </form>
-          <div>
-            <CartIcon />
+          <div className="relative">
+            <NavLink to="/cart">
+              <CartIcon />
+            </NavLink>
+            {cart > 0 && (
+              <div className="bg-red-500 text-white rounded-full text-center absolute h-4 w-4 top-0 left-4 font-semibold text-sm float-end">
+                <p className="text-sm text-white">{cart}</p>
+              </div>
+            )}
           </div>
           <div className="cursor-pointer">
             {isAuthenticated ? (
@@ -178,14 +177,14 @@ export function SmallNavBar(): JSX.Element {
               </li>
 
               <div className="flex flex-col gap-5 mr-auto ml-auto items-center">
-                <form onSubmit={handleSearch} className="mr-3">
+                <form onSubmit={handleSearch} className="mr-3 relative">
                   <input
                     type="search"
-                    className="border border-gray-400 rounded-md relative w-[90px]"
+                    className="border border-gray-400 rounded-md   w-40 px-2 relative"
                     placeholder="search"
                   ></input>
-                  <button className="inline relative h-full mr-2">
-                    <i className="fa-solid fa-magnifying-glass absolute right-1 h-fit bottom-[10px]"></i>
+                  <button className="inline absolute h-fit top-0 mr-2  right-0">
+                    <i className="fa-solid fa-magnifying-glass  h-full w-full mt-1"></i>
                   </button>
                 </form>
                 <div className="flex items-center">

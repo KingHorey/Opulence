@@ -1,13 +1,12 @@
 export function CartIcon() {
   return (
-    // <>
     <svg
       fill="transparent"
       height="24"
       viewBox="0 0 24 24"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
-      className="inline-block mx-3"
+      className="inline-block relative mr-3"
     >
       <path
         d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z"
@@ -17,7 +16,6 @@ export function CartIcon() {
         strokeWidth="2"
       />
     </svg>
-    // </>
   );
 }
 
@@ -344,6 +342,7 @@ export function SucessSVG() {
     </>
   );
 }
+
 export function IncreaseSvg() {
   return (
     <>
@@ -388,7 +387,9 @@ export function DecreaseSvg() {
           stroke-linejoin="round"
         ></g>
         <g id="SVGRepo_iconCarrier">
+          {" "}
           <g>
+            {" "}
             <path d="M15.167,30.334c-8.362,0-15.166-6.805-15.166-15.167C0.001,6.804,6.805,0,15.167,0c8.361,0,15.166,6.804,15.166,15.167 C30.333,23.529,23.528,30.334,15.167,30.334z M15.167,4C9.01,4,4.001,9.009,4.001,15.167S9.01,26.334,15.167,26.334 s11.166-5.009,11.166-11.167S21.324,4,15.167,4z M24.824,15.167c0-1.657-1.343-3-3-3H8.509c-1.657,0-3,1.343-3,3 c0,1.656,1.343,3,3,3h13.315C23.481,18.167,24.824,16.823,24.824,15.167z"></path>{" "}
           </g>{" "}
         </g>

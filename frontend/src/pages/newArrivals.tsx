@@ -182,7 +182,11 @@ function NewArrivals() {
               </div>
             )}
           </div>
-          <Pagination currentPage={1} totalDocuments={40}></Pagination>
+          <Pagination
+            currentPage={1}
+            totalDocuments={pageNumbers}
+            limit={9}
+          ></Pagination>
         </div>
       </div>
       <Footer />
