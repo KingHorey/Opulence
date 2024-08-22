@@ -102,8 +102,8 @@ export default function HomePage() {
           <LargeProductsPick
             title="Hoodies"
             image="/images/erkan-kirdar-ydSTXp0ROdI-unsplash.jpg"
-            link="/"
-          />
+            link="/shop/hoodies"
+          ></LargeProductsPick>
           <LargeProductsPick
             title="Formal Wears"
             image="/images/alexandre-trouve-tATXQ3u9wJc-unsplash.jpg"

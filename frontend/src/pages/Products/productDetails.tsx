@@ -1,7 +1,12 @@
 import { Footer } from "../../components/footer";
 import { PageContainer } from "../../components/pageContainer";
 import ResponsiveNavBar from "../../components/responsiveNavBar";
-import { LoadingAnimation, WhiteCartIcon } from "../../components/svg";
+import {
+  DecreaseSvg,
+  IncreaseSvg,
+  LoadingAnimation,
+  WhiteCartIcon,
+} from "../../components/svg";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductInfo } from "../../misc/externalCalls";
@@ -10,14 +15,29 @@ import { axiosConfig } from "../../misc/axiosConfig";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { toastify } from "../../components/toastify";
+import { useAppDispatch } from "../../hooks";
+import {
+  addtoCart,
+  decreaseAmount,
+  increaseAmount,
+  removeItem,
+} from "../../stateManagement/features/CartSlice";
 
 export function ProductDetails() {
+  // const { cartItems, numItemsInCart, cartTotal } = useAppSelector(
+  //   (state) => state.cart
+  // );
+
+  const dispatch = useAppDispatch();
   let { id } = useParams();
   const params: string = id as string;
   const [productDetails, setProductDetails] = useState<productsData>();
   const [isLoading, setLoadingState] = useState(true);
   const [errors, setErrors] = useState<boolean>(false);
   const [bookmark, setBookmark] = useState<boolean>(false);
+  const [size, setSize] = useState("M")!;
+  const [showamount, setShowamount] = useState(true);
+  const [amount, setAmount] = useState(1);
   const authHeader = useAuthHeader();
   const authUser: { email: string; isAdmin: boolean } | null = useAuthUser();
 
@@ -148,6 +168,45 @@ export function ProductDetails() {
       }
     }
   };
+
+  const showAmount = () => {
+    setShowamount(!showAmount);
+  };
+
+  const DecreaseAmount = () => {
+    if (amount === 1) {
+      setShowamount(true);
+      dispatch(removeItem({ cartProduct }));
+      toastify({ type: "info", text: "removed from cart" });
+    } else {
+      setAmount(amount - 1);
+      dispatch(decreaseAmount({ cartProduct }));
+    }
+  };
+
+  const IncreaseAmount = () => {
+    setAmount(amount + 1);
+    dispatch(increaseAmount({ cartProduct }));
+  };
+
+  const handleAddCart = () => {
+    showAmount();
+    dispatch(addtoCart({ cartProduct }));
+    toastify({ type: "info", text: "Added to cart" });
+  };
+
+  const cartProduct = {
+    cartID: productDetails?._id as string,
+    name: productDetails?.name as string,
+    image: productDetails?.image as string,
+    category: productDetails?.category.type as string,
+    amount: amount,
+    price: productDetails?.price as number,
+    size: size,
+  };
+
+  // console.log(cartProduct);
+
   return (
     <PageContainer>
       <ResponsiveNavBar />
@@ -179,22 +238,39 @@ export function ProductDetails() {
             <div className="grid lg:grid-cols-2 gap-5 mt-5">
               {productDetails?.sizeVariants.map((item, count) => (
                 <button
-                  className="text-center raleway p-2 border border-gray-300  rounded-lg cursor-pointer hover:bg-gray-300 duration-500 transition-all "
+                  className={`text-center raleway p-2 border border-gray-300  rounded-lg cursor-pointer hover:bg-blue-300 duration-500 transition-all ${item === size && "bg-blue-400"}`}
                   key={count}
-                  // onClick={}
+                  onClick={() => setSize(item)}
                 >
                   {item}
                 </button>
               ))}
             </div>
           </div>
-          <div className="w-full flex flex-col items-center gap-y-10">
-            <button className="bg-black/90 hover:bg-black transition-all duration-300 text-white p-4 rounded-full w-full font-bold text-base raleway">
-              Add To Cart
-              <span className="ml-3">
-                <WhiteCartIcon />
-              </span>
-            </button>
+          <div className="w-full flex flex-col items-center gap-y-10 ">
+            {showamount ? (
+              <button
+                className="bg-black/90 hover:bg-black transition-all duration-300 text-white p-4 rounded-full w-full font-bold text-base raleway"
+                onClick={handleAddCart}
+              >
+                Add To Cart
+                <span className="ml-3">
+                  <WhiteCartIcon />
+                </span>
+              </button>
+            ) : (
+              <div className="w-full flex flex-col ">
+                <button className="bg-black/90 hover:bg-black transition-all duration-300 text-white p-4 rounded-full w-full font-bold text-base raleway">
+                  <button className="mr-10" onClick={DecreaseAmount}>
+                    <DecreaseSvg />
+                  </button>
+                  {amount}
+                  <button className="ml-10" onClick={IncreaseAmount}>
+                    <IncreaseSvg />
+                  </button>
+                </button>
+              </div>
+            )}
             <button
               className="border border-gray-300 hover:border-black durartion-500 transition-all ease-in-out rounded-full text-black w-full p-4 text-base raleway  font-bold"
               onClick={handleBookmark}
@@ -210,11 +286,11 @@ export function ProductDetails() {
               )}
             </button>
           </div>
-          <div className="text-xl raleway w-full cursor-pointer">
+          <div className="text-xl raleway w-full cursor-pointer select-none">
             Reviews
             <img
               src="/svg/arrow-down.svg"
-              className="inline-block ml-3 cursor-pointer"
+              className="inline-block ml-3 cursor-pointer select-none"
             ></img>
           </div>
         </div>

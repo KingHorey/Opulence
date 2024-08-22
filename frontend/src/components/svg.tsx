@@ -7,7 +7,7 @@ export function CartIcon() {
       viewBox="0 0 24 24"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
-      className="inline-block"
+      className="inline-block mx-3"
     >
       <path
         d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z"
@@ -339,6 +339,58 @@ export function SucessSVG() {
             transform=" matrix(1 0 0 1 0 0) "
             strokeLinecap="round"
           />
+        </g>
+      </svg>
+    </>
+  );
+}
+export function IncreaseSvg() {
+  return (
+    <>
+      <svg
+        fill="#ffffff"
+        width="14px"
+        height="24px"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"></path>
+        </g>
+      </svg>
+    </>
+  );
+}
+export function DecreaseSvg() {
+  return (
+    <>
+      <svg
+        fill="#ffffff"
+        version="1.1"
+        id="Capa_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        width="14px"
+        height="24px"
+        viewBox="0 0 30.334 30.334"
+        xmlSpace="preserve"
+      >
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <g>
+            <path d="M15.167,30.334c-8.362,0-15.166-6.805-15.166-15.167C0.001,6.804,6.805,0,15.167,0c8.361,0,15.166,6.804,15.166,15.167 C30.333,23.529,23.528,30.334,15.167,30.334z M15.167,4C9.01,4,4.001,9.009,4.001,15.167S9.01,26.334,15.167,26.334 s11.166-5.009,11.166-11.167S21.324,4,15.167,4z M24.824,15.167c0-1.657-1.343-3-3-3H8.509c-1.657,0-3,1.343-3,3 c0,1.656,1.343,3,3,3h13.315C23.481,18.167,24.824,16.823,24.824,15.167z"></path>{" "}
+          </g>{" "}
         </g>
       </svg>
     </>
