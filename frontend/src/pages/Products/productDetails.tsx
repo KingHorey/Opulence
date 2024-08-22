@@ -10,12 +10,12 @@ import {
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductInfo } from "../../misc/externalCalls";
-import { productsData, CartInterface, cartProduct } from "../../types";
+import { productsData } from "../../types";
 import { axiosConfig } from "../../misc/axiosConfig";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { toastify } from "../../components/toastify";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useAppDispatch } from "../../hooks";
 import {
   addtoCart,
   decreaseAmount,
@@ -24,13 +24,10 @@ import {
 } from "../../stateManagement/features/CartSlice";
 
 export function ProductDetails() {
-  const { cartItems, numItemsInCart, cartTotal } = useAppSelector(
-    (state) => state.cart
-  );
+  // const { cartItems, numItemsInCart, cartTotal } = useAppSelector(
+  //   (state) => state.cart
+  // );
 
-  console.log(cartItems);
-  console.log(numItemsInCart);
-  console.log(cartTotal);
   const dispatch = useAppDispatch();
   let { id } = useParams();
   const params: string = id as string;
@@ -180,6 +177,7 @@ export function ProductDetails() {
     if (amount === 1) {
       setShowamount(true);
       dispatch(removeItem({ cartProduct }));
+      toastify({ type: "info", text: "removed from cart" });
     } else {
       setAmount(amount - 1);
       dispatch(decreaseAmount({ cartProduct }));
@@ -194,6 +192,7 @@ export function ProductDetails() {
   const handleAddCart = () => {
     showAmount();
     dispatch(addtoCart({ cartProduct }));
+    toastify({ type: "info", text: "Added to cart" });
   };
 
   const cartProduct = {
@@ -206,7 +205,7 @@ export function ProductDetails() {
     size: size,
   };
 
-  console.log(cartProduct);
+  // console.log(cartProduct);
 
   return (
     <PageContainer>
@@ -239,7 +238,7 @@ export function ProductDetails() {
             <div className="grid lg:grid-cols-2 gap-5 mt-5">
               {productDetails?.sizeVariants.map((item, count) => (
                 <button
-                  className={`text-center raleway p-2 border border-gray-300  rounded-lg cursor-pointer hover:bg-gray-300 duration-500 transition-all ${item === size && "bg-blue-400"}`}
+                  className={`text-center raleway p-2 border border-gray-300  rounded-lg cursor-pointer hover:bg-blue-300 duration-500 transition-all ${item === size && "bg-blue-400"}`}
                   key={count}
                   onClick={() => setSize(item)}
                 >

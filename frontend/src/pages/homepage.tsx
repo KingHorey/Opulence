@@ -10,7 +10,6 @@ import { Slider } from "../components/slider";
 import { PageTitle } from "../misc/pageTitle";
 import { PageContainer } from "../components/pageContainer";
 import ResponsiveNavBar from "../components/responsiveNavBar";
-import { NavLink } from "react-router-dom";
 
 export default function HomePage() {
   PageTitle({ title: "Welcome To Opulence" });
