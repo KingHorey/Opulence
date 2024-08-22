@@ -14,6 +14,7 @@ interface Product extends Document {
 	gender: string[];
 	createdAt: Date;
 	linkName: string;
+	// review:
 }
 
 interface ProductType extends Document {

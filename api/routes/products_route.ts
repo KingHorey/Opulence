@@ -39,20 +39,31 @@ export async function verifyUser(req: Request, res: Response, next: NextFunction
 }
 
 productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
-	try {
-		let startPage: number = parseInt(req.query.page as string) || 0
-		let limit: number = parseInt(req.query.limit as string) || 10
-		let countDocuments = await productModel.find().sort({createdAt: -1}).countDocuments()
-		let result = await productModel.find().populate('brand').populate('category').sort({ createdAt: -1 }).skip(startPage * limit).limit(limit);
-		res.status(200).json({
-			data: result,
-			total: countDocuments
+		const query: string[] = []
+	if (req.query.category) {
+		let data = req.query.category?.toString().split("=").toString().split("&")
+		data.forEach((item) => {
+			query.push(item.split(",")[1])
 		})
 	}
-	catch (err) {
-		res.status(400).json(err)
-	}
+	try {
+			const newQuery = query.length > 0 ? { category: {$in: query}} : {}
+			let startPage: number = parseInt(req.query.page as string) || 0
+			let limit: number = parseInt(req.query.limit as string) || 10
+			let countDocuments = await productModel.find(newQuery).sort({ createdAt: -1 }).countDocuments()
+		let result = await productModel.find(newQuery).populate('brand').populate('category').sort({ createdAt: -1 }).skip(startPage * limit).limit(limit);
+			res.status(200).json({
+				data: result,
+				total: countDocuments
+			})
+		}
+		catch (err) {
+			res.status(400).json(err)
+		}
+	// }
 })
+
+
 
 productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 	try {
