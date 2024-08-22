@@ -5,6 +5,22 @@ export interface ItemInterface {
   image: string;
 }
 
+export interface cartProduct {
+  cartID: string
+  name: string
+  image: string
+  category: string
+  amount: number
+  price: number
+  size: string
+}
+
+export interface CartInterface {
+  
+    cartProduct: cartProduct
+  
+}
+
 export interface RootState {
   cart: ItemInterface[];
 }
