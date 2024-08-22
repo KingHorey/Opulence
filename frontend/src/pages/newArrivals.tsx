@@ -1,4 +1,3 @@
-// import axios from "axios";
 import { useEffect, useState } from "react";
 import ResponsiveNavBar from "../components/responsiveNavBar";
 import { PageContainer } from "../components/pageContainer";
@@ -7,7 +6,7 @@ import { filterCategories, productsData } from "../types";
 import { ProductDisplay } from "../components/productsDiv";
 import { SmallerSlider } from "../components/slider";
 import { Footer } from "../components/footer";
-// import Pagination from "../components/Pagination";
+import Pagination from "../components/Pagination";
 import { fetchCategories, fetchProducts } from "../misc/externalCalls";
 import { GridContainer } from "../components/gridContainer";
 import { axiosConfig } from "../misc/axiosConfig";
@@ -183,8 +182,7 @@ function NewArrivals() {
               </div>
             )}
           </div>
-          {/* <Pagination currentPage={1} totalPages={pageNumbers}></Pagination> */}
-          {pageNumbers}
+          <Pagination currentPage={1} totalDocuments={40}></Pagination>
         </div>
       </div>
       <Footer />
