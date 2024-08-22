@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { filterCategories } from "../types";
 import { fetchCategories } from "../misc/externalCalls";
+import { axiosConfig } from "../misc/axiosConfig";
 
 export function Filter() {
   const [categories, setCategories] = useState<null | filterCategories[]>([]);
@@ -22,6 +23,26 @@ export function Filter() {
     };
     data();
   }, []);
+
+  const handleFiltering = async (type: string) => {
+    try {
+      let response = await axiosConfig.get(
+        `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_CATEGORIES_ENDPOINT}`,
+        {
+          params: {
+            type: type,
+          },
+        }
+      );
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (err: any) {
+      return null;
+    }
+  };
   return (
     <div className="">
       <button
@@ -37,15 +58,21 @@ export function Filter() {
       </button>
       {filterState ? (
         <div className="duration-400 transition-all absolute">
-          <ul className="w-fit flex flex-col gap-4">
+          <form action="" className="flex flex-col gap-3">
             {categories?.map((item) => {
               return (
-                <li key={item._id} className="cursor-pointer w-fit mx-auto">
+                <label>
+                  <input
+                    type="radio"
+                    key={item._id}
+                    className="cursor-pointer w-fit mx-auto"
+                    onClick={() => handleFiltering(item.type)}
+                  ></input>
                   {item.type}
-                </li>
+                </label>
               );
             })}
-          </ul>
+          </form>
         </div>
       ) : (
         <div className="duration-400 transition-all"></div>

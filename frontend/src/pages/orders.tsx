@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { InfoDiv } from "../misc/divs";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import { profileOrders } from "../types";
+import { axiosConfig } from "../misc/axiosConfig";
 
 // component for the orders page
 export function OrdersPage() {
@@ -16,8 +16,8 @@ export function OrdersPage() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        let result = await axios.get(
-          `${import.meta.env.HOST_URL}${import.meta.env.ORDER}/: ${filterOrders}`,
+        let result = await axiosConfig.get(
+          `${import.meta.env.ORDER}/: ${filterOrders}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export function OrdersPage() {
   }, [filterOrders]);
 
   useEffect(() => {
-    axios
+    axiosConfig
       .get("http://localhost:3000/api/orders", {
         headers: {
           "Content-Type": "application/json",

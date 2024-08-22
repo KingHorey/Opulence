@@ -10,6 +10,7 @@ import { Footer } from "../components/footer";
 // import Pagination from "../components/Pagination";
 import { fetchCategories, fetchProducts } from "../misc/externalCalls";
 import { GridContainer } from "../components/gridContainer";
+import { axiosConfig } from "../misc/axiosConfig";
 
 function NewArrivals() {
   const [newArrivals, setNewArrivals] = useState<productsData[] | null>([]);
@@ -17,6 +18,17 @@ function NewArrivals() {
   const [pageNumbers, setPageNumbers] = useState(1);
   const [productCategoriesState, setProductCategoriesState] = useState(true);
   const [productState, setProductState] = useState(true);
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const checkItemSelectedStatus = (data: string) => {
+    setSelectedItems((prevItems) => {
+      if (prevItems.includes(data)) {
+        return prevItems.filter((item) => item !== data);
+      } else {
+        return [...prevItems, data];
+      }
+    });
+  };
   useEffect(() => {
     const handeCategories = async () => {
       fetchCategories()
@@ -36,27 +48,50 @@ function NewArrivals() {
 
   useEffect(() => {
     const handleProducts = async () => {
-      fetchProducts()
-        .then((response) => {
-          const result =
-            response && response.length > 0
-              ? (response[0] as unknown as productsData[])
-              : null;
-          const total =
-            response && response.length > 0
-              ? (response[1] as unknown as number)
-              : null;
-          setProductState(false);
-          setNewArrivals(result ? result : []);
-          setPageNumbers(total ? total : 1);
-        })
-        .catch(() => {
-          setProductState(false);
+      if (selectedItems.length >= 1) {
+        const params = new URLSearchParams();
+        for (let item of selectedItems) {
+          params.append("category", item);
+        }
+        const url = params.toString();
+        try {
+          let result = await axiosConfig.get(`/api/products/new-arrivals`, {
+            params: {
+              category: url,
+            },
+          });
+          if (result.status === 200) {
+            const data = result.data.data;
+            setNewArrivals(data);
+          } else {
+            setNewArrivals(null);
+          }
+        } catch {
           setNewArrivals(null);
-        });
+        }
+      } else {
+        fetchProducts()
+          .then((response) => {
+            const result =
+              response && response.length > 0
+                ? (response[0] as unknown as productsData[])
+                : null;
+            const total =
+              response && response.length > 0
+                ? (response[1] as unknown as number)
+                : null;
+            setProductState(false);
+            setNewArrivals(result ? result : []);
+            setPageNumbers(total ? total : 1);
+          })
+          .catch(() => {
+            setProductState(false);
+            setNewArrivals(null);
+          });
+      }
     };
     handleProducts();
-  }, []);
+  }, [selectedItems]);
 
   return (
     <PageContainer>
@@ -105,13 +140,17 @@ function NewArrivals() {
             <div className="lg:w-full flex-col gap-5  bg-[#fefefe] border-r-gray border-r">
               {categories &&
                 categories.map((item) => (
-                  <a
-                    className="pl-2 pr-2 accent-blue-300 mr-2 xxs:text[.5rem] lg:text-[.9rem] border-black border rounded-full raleway font-semibold ml-2"
+                  <button
+                    className={
+                      selectedItems.includes(item._id)
+                        ? "pl-2 pr-2 py-1  mr-2 xxs:text[.5rem] lg:text-[.8rem] border-gray-300 border rounded-lg raleway ml-2 bg-gray-300 text-white"
+                        : "pl-2 pr-2 py-1 accent-blue-300 mr-2 xxs:text[.5rem] lg:text-[.8rem] border-gray-300 border rounded-lg raleway ml-2"
+                    }
+                    onClick={() => checkItemSelectedStatus(item._id)}
                     key={item._id}
-                    href={`/product/categories/${item.type.toLowerCase()}`}
                   >
                     {item.type}
-                  </a>
+                  </button>
                 ))}
             </div>
           )}
@@ -127,11 +166,6 @@ function NewArrivals() {
                   {newArrivals &&
                     newArrivals.map((item) => {
                       return (
-                        // <a
-                        //   href={`/${item.brand}/${item._id}`}
-                        //   key={item._id}
-                        //   className="xxs:w-fit md:w-[300px]"
-                        // >
                         <ProductDisplay
                           key={item._id}
                           name={item.name}
@@ -143,6 +177,9 @@ function NewArrivals() {
                       );
                     })}
                 </GridContainer>
+                {newArrivals?.length === 0 && (
+                  <div className="raleway text-center">No Items</div>
+                )}
               </div>
             )}
           </div>

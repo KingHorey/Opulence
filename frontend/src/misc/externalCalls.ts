@@ -6,13 +6,12 @@ import {
   productsData,
 } from "../types";
 import { ResponseData } from "../types";
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 export function getEmailAvailability(email: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     axiosConfig
       .post(
-        `${import.meta.env.VITE_URL}${import.meta.env.VITE_MAIL_VERIFICATION_ENDPOINT}`,
+        `${import.meta.env.VITE_MAIL_VERIFICATION_ENDPOINT}`,
         JSON.stringify({ email: email }),
         {
           headers: {
@@ -39,7 +38,7 @@ export function updateUser(data: UserProfileUpdate): Promise<ResponseData> {
     const { email, telephoneHome, telephonePersonal, userMail } = data;
     axiosConfig
       .put(
-        `${import.meta.env.VITE_URL}${import.meta.env.VITE_UPDATE_PERSONAL_INFORMATION}`,
+        `${import.meta.env.VITE_UPDATE_PERSONAL_INFORMATION}`,
         JSON.stringify({ email, telephoneHome, telephonePersonal, userMail }),
         {
           headers: {
@@ -64,7 +63,7 @@ export function updateUser(data: UserProfileUpdate): Promise<ResponseData> {
 export async function fetchBrands(): Promise<getBrandData[] | null> {
   try {
     let response = await axiosConfig.get(
-      `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_BRAND_ENDPOINT}`
+      `${import.meta.env.VITE_GET_BRAND_ENDPOINT}`
     );
     if (response.status === 200) {
       return response.data;
@@ -79,7 +78,7 @@ export async function fetchBrands(): Promise<getBrandData[] | null> {
 export async function fetchCategories(): Promise<filterCategories[] | null> {
   try {
     let response = await axiosConfig.get(
-      `${import.meta.env.VITE_URL}${import.meta.env.VITE_GET_CATEGORIES_ENDPOINT}`
+      `${import.meta.env.VITE_GET_CATEGORIES_ENDPOINT}`
     );
     if (response.status === 200) {
       return response.data;
@@ -93,14 +92,11 @@ export async function fetchCategories(): Promise<filterCategories[] | null> {
 
 export async function fetchProducts(): Promise<productsData[] | null> {
   try {
-    const response = await axiosConfig.get(
-      `${import.meta.env.VITE_URL}/api/products/new-arrivals`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axiosConfig.get(`/api/products/new-arrivals`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (response.status === 200) {
       return [response.data.data, response.data.total];
     } else {
@@ -129,26 +125,9 @@ export async function getProductInfo(
   }
 }
 
-export async function getBookmarks() {
-  const authHeader = useAuthHeader();
-  console.log("Calling bookmarks");
-  console.log(authHeader);
-  try {
-    let response = await axiosConfig.get(
-      `${import.meta.env.VITE_URL}/api/user/bookmarks`,
-      {
-        headers: {
-          Authorization: authHeader,
-        },
-      }
-    );
-    if (response.status === 200) {
-      console.log("response ", response.data);
-      return response.data;
-    } else {
-      return null;
-    }
-  } catch (err: any) {
-    return null;
-  }
-}
+// export async function getBookmarks() {
+//   const authHeader = useAuthHeader();
+//   console.log("Calling bookmarks");
+//   console.log(authHeader);
+
+// }

@@ -5,8 +5,8 @@ import { useState } from "react";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { LoadingAnimation } from "../components/svg";
 import { toastify } from "../components/toastify";
-import axios from "axios";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { axiosConfig } from "../misc/axiosConfig";
 
 export function AddBrandPage() {
   const {
@@ -27,8 +27,8 @@ export function AddBrandPage() {
   const addBrand: SubmitHandler<addNewBrand> = async (data) => {
     data = { ...data, image: imageLink };
     try {
-      let result = await axios.post(
-        `${import.meta.env.VITE_URL}${import.meta.env.VITE_ADD_BRAND_ENDPOINT}`,
+      let result = await axiosConfig.post(
+        `${import.meta.env.VITE_ADD_BRAND_ENDPOINT}`,
         JSON.stringify({ data, userDetails }),
         {
           headers: {

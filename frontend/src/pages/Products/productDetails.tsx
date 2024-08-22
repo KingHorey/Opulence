@@ -59,7 +59,6 @@ export function ProductDetails() {
           }
         );
         if (response.status === 200) {
-          console.log("response ", response.data);
           return response.data;
         } else {
           return null;
@@ -168,7 +167,10 @@ export function ProductDetails() {
         <div className="xxs:w-full lg:w-2/4 flex flex-col items-center gap-y-10 p-5 overflow-y-scroll">
           <div className="w-full">
             <p className="text-3xl ">{productDetails?.name}</p>
-            <p className="text-gray-500">{productDetails?.price}</p>
+            <p className="text-gray-500">
+              <span className="text-xs mr-1">&#8358;</span>
+              {productDetails?.price}
+            </p>
             <p>Category: {productDetails?.category.type}</p>
           </div>
           <p className="text-base raleway">{productDetails?.description}</p>

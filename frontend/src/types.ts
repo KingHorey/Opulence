@@ -113,3 +113,11 @@ export interface getBrandData {
 export interface categoriesData {
   [key: string]: string;
 }
+
+export interface filtering {
+  category: string[];
+  brand: string[];
+  price: string;
+  size: string[];
+  color: string[];
+}

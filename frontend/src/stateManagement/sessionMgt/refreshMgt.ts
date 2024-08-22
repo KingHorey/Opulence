@@ -1,13 +1,13 @@
 import createRefresh from "react-auth-kit/createRefresh";
-import axios from "axios";
 import { ParamInterface } from "../../types";
+import { axiosConfig } from "../../misc/axiosConfig";
 
 export const refreshApi = createRefresh<ParamInterface>({
   interval: 3600,
   refreshApiCallback: async (param): Promise<ParamInterface> => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_URL}${import.meta.env.VITE_REFRESH_TOKEN}`,
+      const response = await axiosConfig.post(
+        `${import.meta.env.VITE_REFRESH_TOKEN}`,
         param,
         {
           headers: { Authorization: `Bearer ${param.authToken}` },
