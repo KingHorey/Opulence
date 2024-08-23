@@ -24,7 +24,7 @@ function Pagination({
     }
   }
   return (
-    <div className="mr-auto ml-auto mb-5">
+    <div className="mx-auto mb-5 mt-10">
       {numbers.map((item) => {
         return (
           <a

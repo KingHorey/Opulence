@@ -4,12 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../stateManagement/contextApi/loginContext";
 import { useState } from "react";
 import { toastify } from "../components/toastify";
-import {
-  AppleSVG,
-  FacebookSVG,
-  GoogleSVG,
-  LoadingAnimation,
-} from "../components/svg";
+import { GoogleSVG, LoadingAnimation } from "../components/svg";
 import { PageTitle } from "../misc/pageTitle";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import ResponsiveNavBar from "../components/responsiveNavBar";
@@ -167,14 +162,14 @@ export function LoginPage() {
               <GoogleSVG />
               <span className="text-sm ml-3">Sign in with Google</span>
             </a>
-            <div className="p-2 text-black text-center rounded-md shadow-md border-slate-50 border-2">
+            {/* <div className="p-2 text-black text-center rounded-md shadow-md border-slate-50 border-2">
               <AppleSVG />
               <span className="text-sm ml-3">Sign in with Apple</span>
             </div>
             <div className="p-2 text-black text-center rounded-md shadow-md border-slate-50 border-2">
               <FacebookSVG />
               <span className="text-sm ml-3">Sign in with Facebook</span>
-            </div>
+            </div> */}
           </div>
         </div>
         <p className="w-full text-center xxs:mt-5 lg:mt-0">

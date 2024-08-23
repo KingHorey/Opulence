@@ -6,19 +6,17 @@ export interface ItemInterface {
 }
 
 export interface cartProduct {
-  cartID: string
-  name: string
-  image: string
-  category: string
-  amount: number
-  price: number
-  size: string
+  cartID: string;
+  name: string;
+  image: string;
+  category: string;
+  amount: number;
+  price: number;
+  size: string;
 }
 
 export interface CartInterface {
-  
-    cartProduct: cartProduct
-  
+  cartProduct: cartProduct;
 }
 
 export interface RootState {
@@ -136,4 +134,8 @@ export interface filtering {
   price: string;
   size: string[];
   color: string[];
+}
+
+export interface searchItems {
+  search: string;
 }

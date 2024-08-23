@@ -59,11 +59,12 @@ export function CartPage() {
                           <img src="/svg/trash-03.svg"></img>
                         </button>
                       </div>
+                      <hr></hr>
                     </div>
                   );
                 })}
             </div>
-            <div className="w-1/4 h-[150px] flex  flex-col justify-between border border-gray-300 rounded-lg p-2">
+            <div className="w-1/4 h-fit flex  flex-col justify-between border border-gray-300 rounded-lg p-2 gap-2">
               <p className="text-xl font-bold mb-10">Total Cart Cost</p>
               <hr></hr>
               {cart.length > 0 ? (
@@ -80,6 +81,11 @@ export function CartPage() {
                 <p>Cart is Empty</p>
               )}
               <hr></hr>
+              {cart.length > 0 && (
+                <button className="w-full p-1 bg-offBlue hover:bg-blue-400 duration-300 transition-colors  rounded-md text-xl hover:text-white">
+                  Checkout
+                </button>
+              )}
             </div>
           </div>
         </main>

@@ -1,17 +1,31 @@
 import { CartIcon, UserIcon } from "./svg";
-import { NavLink } from "react-router-dom";
-import { FormEvent, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuthStatus } from "../misc/customHooks";
-// import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useSelector } from "react-redux";
+import { searchItems } from "../types";
+import { axiosConfig } from "../misc/axiosConfig";
 
 export function NavBar(): JSX.Element {
-  // console.log(cartSlice.)
+  const navigate = useNavigate();
+
+  const { register, handleSubmit } = useForm<searchItems>();
   const cart = useSelector((state: any) => state.cart.cartItems.length);
   const isAuthenticated = useAuthStatus();
-  function handleSearch(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-  }
+  const handleSearch: SubmitHandler<searchItems> = async (data) => {
+    try {
+      let result = await axiosConfig.get(`/api/products/search/${data.search}`);
+      if (result.status === 200) {
+        result = result.data;
+        navigate(`/shop/results/${data.search}`, {
+          state: { searchResults: result, title: data.search },
+        });
+      }
+    } catch {
+      console.log("error");
+    }
+  };
   return (
     <nav className="flex w-full mb-10 mt-2">
       <ul className="flex w-full justify-between items-center">
@@ -69,16 +83,19 @@ export function NavBar(): JSX.Element {
                   : "capitalize sm:text-sm lg:text-base";
               }}
             >
-              About/Contact
+              Contact
             </NavLink>
           </li>
         </div>
         <div className="flex ml-10">
-          <form onSubmit={handleSearch} className="mr-3 relative">
+          <form onSubmit={handleSubmit(handleSearch)} className="mr-3 relative">
             <input
+              {...register("search", {
+                required: true,
+              })}
               type="search"
               className="border border-gray-400 rounded-md   w-40 px-2 relative"
-              placeholder="search"
+              placeholder="Search by brand"
             ></input>
             <button className="inline absolute h-fit top-0 mr-2  right-0">
               <i className="fa-solid fa-magnifying-glass  h-full w-full mt-1"></i>
@@ -113,14 +130,28 @@ export function NavBar(): JSX.Element {
 
 export function SmallNavBar(): JSX.Element {
   const isAuthenticated = useAuthStatus();
+  const { register, handleSubmit } = useForm<searchItems>();
+  const cart = useSelector((state: any) => state.cart.cartItems.length);
+  const navigate = useNavigate();
+  const handleSearch: SubmitHandler<searchItems> = async (data) => {
+    try {
+      let result = await axiosConfig.get(`/api/products/search/${data.search}`);
+      if (result.status === 200) {
+        result = result.data;
+        navigate(`/shop/results/${data.search}`, {
+          state: { searchResults: result, title: data.search },
+        });
+      }
+    } catch {
+      console.log("error");
+    }
+  };
 
   const [sideBar, showSideBar] = useState(false);
   function handleSideBar() {
     showSideBar(!sideBar);
   }
-  function handleSearch(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-  }
+
   return (
     <nav className="flex w-full mb-10">
       <ul className="flex w-full justify-between items-center">
@@ -146,14 +177,6 @@ export function SmallNavBar(): JSX.Element {
                   Shop
                 </NavLink>
               </li>
-              {/* <li>
-                <NavLink
-                  to="/shop"
-                  className="capitalize lg:text-base sm:text-sm"
-                >
-                  Most Wanted
-                </NavLink>
-              </li> */}
               <li>
                 <NavLink
                   to="/shop"
@@ -177,19 +200,31 @@ export function SmallNavBar(): JSX.Element {
               </li>
 
               <div className="flex flex-col gap-5 mr-auto ml-auto items-center">
-                <form onSubmit={handleSearch} className="mr-3 relative">
+                <form
+                  onSubmit={handleSubmit(handleSearch)}
+                  className="mr-3 relative"
+                >
                   <input
+                    {...register("search", {
+                      required: true,
+                    })}
                     type="search"
                     className="border border-gray-400 rounded-md   w-40 px-2 relative"
-                    placeholder="search"
+                    placeholder="Search by brand"
                   ></input>
                   <button className="inline absolute h-fit top-0 mr-2  right-0">
                     <i className="fa-solid fa-magnifying-glass  h-full w-full mt-1"></i>
                   </button>
                 </form>
-                <div className="flex items-center">
-                  <CartIcon />
-                  <span className="text-md ml-2 font-bold">Cart</span>
+                <div className="relative">
+                  <NavLink to="/cart">
+                    <CartIcon />
+                  </NavLink>
+                  {cart > 0 && (
+                    <div className="bg-red-500 text-white rounded-full text-center absolute h-4 w-4 top-0 left-4 font-semibold text-sm float-end">
+                      <p className="text-sm text-white">{cart}</p>
+                    </div>
+                  )}
                 </div>
                 <div className="cursor-pointer">
                   {isAuthenticated ? (

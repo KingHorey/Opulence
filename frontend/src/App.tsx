@@ -21,6 +21,7 @@ import Shop from "./pages/Shop";
 import { ProductDetails } from "./pages/Products/productDetails";
 import { Categories } from "./pages/Products/categories";
 import { CartPage } from "./pages/cartPage";
+import { ProductsPage } from "./pages/Products/productsPage";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -54,6 +55,10 @@ function App() {
     {
       path: "/shop",
       element: <Shop />,
+    },
+    {
+      path: "/shop/results/:data",
+      element: <ProductsPage />,
     },
     {
       path: "/cart",

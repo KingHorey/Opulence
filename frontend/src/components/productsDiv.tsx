@@ -67,6 +67,7 @@ export function ProductDisplay({
           <p className="xxs:text-base lg:text-xs poppins-regular text-nowrap text-ellipsis overflow-hidden w-full">
             {name}
           </p>
+
           <p className="text-sm text-slate-700 mt-1  poppins-regular-semibold">
             <span className="text-sm raleway mr-1">&#8358;</span>
             {price}
