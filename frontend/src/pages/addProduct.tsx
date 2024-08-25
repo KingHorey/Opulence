@@ -75,7 +75,6 @@ export function AddProduct() {
     data = { ...data, image: imageLink };
     try {
       let result = await axiosConfig.post(
-        "http://localhost:3000/api/products/add-product",
         JSON.stringify({ data, userDetails }),
         {
           headers: {

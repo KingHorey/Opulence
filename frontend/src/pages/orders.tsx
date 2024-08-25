@@ -40,7 +40,7 @@ export function OrdersPage() {
 
   useEffect(() => {
     axiosConfig
-      .get("http://localhost:3000/api/orders", {
+      .get(`${import.meta.env.VITE_URL}/api/orders`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: authHeader,
