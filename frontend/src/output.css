@@ -1107,10 +1107,6 @@ li a {
   flex-direction: column;
 }
 
-.flex-wrap{
-  flex-wrap: wrap;
-}
-
 .items-center{
   align-items: center;
 }
@@ -1145,10 +1141,6 @@ li a {
 
 .gap-5{
   gap: 1.25rem;
-}
-
-.gap-0{
-  gap: 0px;
 }
 
 .gap-y-10{

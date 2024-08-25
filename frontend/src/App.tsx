@@ -19,7 +19,7 @@ import { OAuthSuccess } from "./pages/OAuthSuccess";
 import { LoginPage } from "./pages/login";
 import Shop from "./pages/Shop";
 import { ProductDetails } from "./pages/Products/productDetails";
-import { Categories } from "./pages/Products/categories";
+import { BrandPage } from "./pages/Products/brandPage";
 import { CartPage } from "./pages/cartPage";
 import { ProductsPage } from "./pages/Products/productsPage";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
@@ -66,7 +66,7 @@ function App() {
     },
     {
       path: "/shop/:name",
-      element: <Categories />,
+      element: <BrandPage />,
     },
     {
       path: "/login/success",

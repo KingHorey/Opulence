@@ -82,7 +82,7 @@ export default function HomePage() {
           <SmallProductsPick
             title="Wristwatches"
             image="/images/hiroshi-tsubono-7Iid4mkhh98-unsplash.jpg"
-            link="/"
+            link="/shop/wristwatches"
           />
           <SmallProductsPick
             title="Casuals"
@@ -95,17 +95,17 @@ export default function HomePage() {
         <PageHeaders title="Featured Products" />
         <div className="inline-block md:flex-row xxs:flex-col gap-10 xxs:items-center whitespace-nowrap overflow-x-scroll  last:mr-0">
           <LargeProductsPick
-            title="Top Picks"
+            title="Formal Wears"
             image="/images/eliud-gil-samaniego-_1bPErRSKco-unsplash(1).jpg"
             link="/"
           />
           <LargeProductsPick
-            title="Hoodies"
+            title="Sweatshirts & Hoodies"
             image="/images/erkan-kirdar-ydSTXp0ROdI-unsplash.jpg"
-            link="/shop/hoodies"
+            link="/shop/Sweatshirts"
           ></LargeProductsPick>
           <LargeProductsPick
-            title="Formal Wears"
+            title="Suits"
             image="/images/alexandre-trouve-tATXQ3u9wJc-unsplash.jpg"
             link="/"
           />

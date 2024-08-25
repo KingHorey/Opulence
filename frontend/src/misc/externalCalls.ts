@@ -111,15 +111,24 @@ export async function getProductInfo(
   id: string
 ): Promise<productsData[] | null> {
   try {
-    let response = await axiosConfig.get(
-      `${import.meta.env.VITE_URL}/api/products/${id}`
-    );
+    let response = await axiosConfig.get(`/api/products/${id}`);
     if (response.status === 200) {
       // console.log(response.data);
       return response.data;
     } else {
       return null;
     }
+  } catch {
+    return null;
+  }
+}
+
+export async function productCategories(category: string) {
+  try {
+    console.log(category);
+    const result = await axiosConfig.get(`api/products/categories/${category}`);
+    console.log(result);
+    return result.data;
   } catch {
     return null;
   }
