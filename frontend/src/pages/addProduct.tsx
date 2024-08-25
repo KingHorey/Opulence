@@ -73,8 +73,10 @@ export function AddProduct() {
 
   const addProduct: SubmitHandler<addNewProduct> = async (data) => {
     data = { ...data, image: imageLink };
+    console.log(JSON.stringify({ data, userDetails }));
     try {
       let result = await axiosConfig.post(
+        "/api/products/add-product",
         JSON.stringify({ data, userDetails }),
         {
           headers: {
