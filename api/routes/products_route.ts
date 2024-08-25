@@ -49,7 +49,7 @@ productsRoute.get('/new-arrivals', async (req: Request, res: Response) => {
 	try {
 			const newQuery = query.length > 0 ? { category: {$in: query}} : {}
 			let startPage: number = parseInt(req.query.page as string) || 0
-			let limit: number = parseInt(req.query.limit as string) || 10
+			let limit: number = parseInt(req.query.limit as string) || 9
 			let countDocuments = await productModel.find(newQuery).sort({ createdAt: -1 }).countDocuments()
 		let result = await productModel.find(newQuery).populate('brand').populate('category').sort({ createdAt: -1 }).skip(startPage * limit).limit(limit);
 			res.status(200).json({
@@ -78,7 +78,7 @@ productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 
 productsRoute.post("/add-product", verifyUser, async (req: Request, res: Response) => {
 	let { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category, featured } = req.body.data;
-	const linkName = slugify(name.strip())
+	const linkName = slugify(name.trim())
 	colorVariants = colorVariants.split(" ");
 	colorVariants = colorVariants.map((e: string) => {
 		let f_index = e.slice(0,1).toUpperCase()
@@ -169,14 +169,63 @@ productsRoute.post("/add-brand", verifyUser, async (req: Request, res: Response)
 
 productsRoute.get("/:product", async (req: Request, res: Response) => {
 	const product = req.params.product;
+	console.log(product)
 	try {
 		let result = await productModel.findOne({ linkName: product }).populate('brand').populate('category')
 		if (result) {
+			console.log(result)
 			res.status(200).json(result)
 		}
 		else {
 			res.status(404).send("Product not found")
 		}
+	} catch (err) {
+		res.status(400).json(err)
+	}
+})
+
+productsRoute.get("/search/:product", async (req: Request, res: Response) => {
+	const product = req.params.product;
+	try {
+		let brand = await brandModel.findOne({ name: product })
+		if (brand) {
+			let result = await productModel.find({brand: brand._id}).populate({
+				path: 'brand'
+			})
+			if (result) {
+				res.status(200).json(result)
+			}
+			else {
+				res.status(404).send("Product not found")
+			}
+		} else {
+			res.status(400).send("Brand not found")
+		}
+	} catch (err) {
+		res.status(400).json(err)
+	}
+})
+
+
+/**
+ *
+ *
+ */
+
+productsRoute.get("/categories/:product", async (req: Request, res: Response) => {
+	const product = req.params.product
+	console.log(product)
+	const pageCount: number = parseInt(req.query.page as string) || 0
+	const limit: number = parseInt(req.query.limit as string) || 9
+	try {
+		let getCategory = await categoryModel.findOne({type: product})
+		let documentCount = await productModel.find({category: getCategory?._id}).countDocuments();
+		let result = await productModel.find({ category: getCategory?._id }).limit(9).skip(pageCount * limit)
+		console.log(result)
+		res.status(200).json({
+			total: documentCount,
+			data: result
+		})
 	} catch (err) {
 		res.status(400).json(err)
 	}
