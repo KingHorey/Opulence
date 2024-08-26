@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import ResponsiveNavBar from "../components/responsiveNavBar";
 import { PageContainer } from "../components/pageContainer";
-import { BigLoadingAnimation, LoadingAnimation } from "../components/svg";
 import { filterCategories, productsData } from "../types";
 import { ProductDisplay } from "../components/productsDiv";
 import { SmallerSlider } from "../components/slider";
@@ -10,14 +9,50 @@ import Pagination from "../components/Pagination";
 import { fetchCategories, fetchProducts } from "../misc/externalCalls";
 import { GridContainer } from "../components/gridContainer";
 import { axiosConfig } from "../misc/axiosConfig";
+import { useLocation } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
 function NewArrivals() {
+  const location = useLocation();
+  const { search } = location;
   const [newArrivals, setNewArrivals] = useState<productsData[] | null>([]);
   const [categories, setCategories] = useState<null | filterCategories[]>([]);
   const [pageNumbers, setPageNumbers] = useState(1);
   const [productCategoriesState, setProductCategoriesState] = useState(true);
   const [productState, setProductState] = useState(true);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  useEffect(() => {
+    if (search) {
+      const newPage = parseInt(search.split("=")[1]);
+      newPage && setProductState(true);
+      setCurrentPage(newPage || 1);
+      fetchProducts(newPage)
+        .then((response) => {
+          const result =
+            response && response.length > 0
+              ? (response[0] as unknown as productsData[])
+              : null;
+          const total =
+            response && response.length > 0
+              ? (response[1] as unknown as number)
+              : null;
+          const page =
+            response && response.length > 0
+              ? (response[2] as unknown as number)
+              : 1;
+          setProductState(false);
+          setNewArrivals(result ? result : []);
+          setPageNumbers(total ? total : 1);
+          setCurrentPage(page);
+        })
+        .catch(() => {
+          setProductState(false);
+          setNewArrivals(null);
+        });
+    }
+  }, [search]);
 
   const checkItemSelectedStatus = (data: string) => {
     setSelectedItems((prevItems) => {
@@ -79,9 +114,14 @@ function NewArrivals() {
               response && response.length > 0
                 ? (response[1] as unknown as number)
                 : null;
+            const page =
+              response && response.length > 0
+                ? (response[2] as unknown as number)
+                : 1;
             setProductState(false);
             setNewArrivals(result ? result : []);
             setPageNumbers(total ? total : 1);
+            setCurrentPage(page);
           })
           .catch(() => {
             setProductState(false);
@@ -134,7 +174,11 @@ function NewArrivals() {
         <div className="flex flex-col gap-5" id="categories">
           <p>Our Products</p>
           {productCategoriesState ? (
-            <LoadingAnimation />
+            <div className="flex gap-10 justify-evenly">
+              {Array.from({ length: 12 }).map((_, count) => (
+                <Skeleton height={50} width={100} key={count}></Skeleton>
+              ))}
+            </div>
           ) : (
             <div className="lg:w-full flex-col gap-5  bg-[#fefefe] border-r-gray border-r">
               {categories &&
@@ -156,8 +200,12 @@ function NewArrivals() {
 
           <div className="w-full mt-3  flex bg-white mb-10">
             {productState ? (
-              <div className="m-auto">
-                <BigLoadingAnimation />
+              <div className="w-screen">
+                <GridContainer>
+                  {Array.from({ length: 9 }).map((_, count) => (
+                    <Skeleton height={300} width={300} key={count}></Skeleton>
+                  ))}
+                </GridContainer>
               </div>
             ) : (
               <div className="w-screen">
@@ -183,9 +231,8 @@ function NewArrivals() {
             )}
           </div>
           <Pagination
-            currentPage={1}
+            currentPage={currentPage}
             totalDocuments={pageNumbers}
-            limit={9}
           ></Pagination>
         </div>
       </div>

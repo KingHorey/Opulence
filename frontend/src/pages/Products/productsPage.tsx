@@ -5,12 +5,11 @@ import ResponsiveNavBar from "../../components/responsiveNavBar";
 import { PageContainer } from "../../components/pageContainer";
 import { Footer } from "../../components/footer";
 import Pagination from "../../components/Pagination";
+import Skeleton from "react-loading-skeleton";
 
 export function ProductsPage() {
   const location = useLocation();
-  console.log(location);
   const { searchResults, title } = location.state || {};
-  console.log(title);
   return (
     <PageContainer>
       <ResponsiveNavBar />
@@ -27,9 +26,8 @@ export function ProductsPage() {
         </>
       )}
       <GridContainer>
-        {searchResults &&
-          searchResults.map((item: any) => {
-            return (
+        {searchResults
+          ? searchResults.map((item: any) => (
               <ProductDisplay
                 key={item._id}
                 name={item.name}
@@ -38,8 +36,10 @@ export function ProductsPage() {
                 link={`/product/${item.linkName}`}
               />
               // </a>
-            );
-          })}
+            ))
+          : Array.from({ length: 9 }).map((_, count) => (
+              <Skeleton height={300} width={300} key={count}></Skeleton>
+            ))}
       </GridContainer>
       <div className="flex justify-center">
         <Pagination

@@ -90,15 +90,24 @@ export async function fetchCategories(): Promise<filterCategories[] | null> {
   }
 }
 
-export async function fetchProducts(): Promise<productsData[] | null> {
+export async function fetchProducts(
+  page?: number
+): Promise<productsData[] | null> {
   try {
     const response = await axiosConfig.get(`/api/products/new-arrivals`, {
       headers: {
         "Content-Type": "application/json",
       },
+      params: {
+        page: page?.toString(),
+      },
     });
     if (response.status === 200) {
-      return [response.data.data, response.data.total];
+      return [
+        response.data.data,
+        response.data.total,
+        response.data.currentPage,
+      ];
     } else {
       return null;
     }
@@ -139,4 +148,18 @@ export async function productCategories(category: string) {
 //   console.log("Calling bookmarks");
 //   console.log(authHeader);
 
+// }
+
+// export async function pagination(page: string) {
+//   try {
+//     let result = await axiosConfig.get(page);
+//     if (result.status === 200) {
+//       console.log(result.data);
+//       return result.data;
+//     } else {
+//       return null;
+//     }
+//   } catch {
+//     return null;
+//   }
 // }

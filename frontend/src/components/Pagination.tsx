@@ -1,12 +1,17 @@
+import { Link, useLocation } from "react-router-dom";
+
 function Pagination({
   currentPage,
   totalDocuments,
-  limit = 10,
+  limit = 9,
 }: {
   currentPage: number;
   totalDocuments: number;
-  limit: number;
+  limit?: number;
 }) {
+  const location = useLocation();
+  const { pathname } = location;
+
   const numbers: (number | string)[] = [];
   const totalPages = Math.ceil(totalDocuments / limit);
   if (currentPage < 4 && totalPages <= 3) {
@@ -24,16 +29,17 @@ function Pagination({
     }
   }
   return (
-    <div className="mx-auto mb-5 mt-10">
+    <div className="mx-auto mb-5 mt-10 flex gap-2">
       {numbers.map((item) => {
         return (
-          <a
-            href={item.toString()}
+          <Link
+            to={`${pathname}?page=${item.toString()}`}
             key={item}
-            className="border-gray-300 border px-2 mr-2"
+            className="border-gray-300 border px-2 mr-2 cursor-pointer"
+            title="Page 2"
           >
             {item}
-          </a>
+          </Link>
         );
       })}
     </div>
