@@ -756,10 +756,6 @@ li a {
   float: left;
 }
 
-.m-auto{
-  margin: auto;
-}
-
 .mx-auto{
   margin-left: auto;
   margin-right: auto;
@@ -1099,6 +1095,10 @@ li a {
           user-select: none;
 }
 
+.list-disc{
+  list-style-type: disc;
+}
+
 .flex-row{
   flex-direction: row;
 }
@@ -1145,10 +1145,6 @@ li a {
 
 .gap-y-10{
   row-gap: 2.5rem;
-}
-
-.gap-y-5{
-  row-gap: 1.25rem;
 }
 
 .self-end{

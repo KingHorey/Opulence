@@ -22,6 +22,7 @@ import { ProductDetails } from "./pages/Products/productDetails";
 import { BrandPage } from "./pages/Products/brandPage";
 import { CartPage } from "./pages/cartPage";
 import { ProductsPage } from "./pages/Products/productsPage";
+import { PrivacyPolicy } from "./pages/privacyPolicy";
 // import { refreshApi } from "./stateManagement/sessionMgt/refreshMgt";
 // import { useAuthStatus } from "./misc/customHooks";
 
@@ -38,6 +39,10 @@ function App() {
       path: "/",
       element: <HomePage />,
       errorElement: <Error404 />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
     },
     {
       path: "/home",
@@ -112,6 +117,10 @@ function App() {
               element: <AddProduct />,
             },
           ],
+        },
+        {
+          path: "/privacy-policy",
+          element: <PrivacyPolicy />,
         },
       ],
     },

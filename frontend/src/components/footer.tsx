@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function Footer() {
   return (
     <div className="mt-10 bg-[#284B63] flex xxs:flex-col md:flex-row gap-5 justify-evenly items-center text-slate-50 md:h-[250px] lg:h-[300px]">
@@ -11,13 +13,13 @@ export function Footer() {
         <p className="text-3xl font-bold">Shop</p>
         <ul className="text-natural-200 flex w-full text-center gap-3 md:block">
           <li>
-            <a href="#">Home</a>
+            <a href="/">Home</a>
           </li>
           <li>
-            <a href="#">New Arrivals</a>
+            <a href="/new-arrivals">New Arrivals</a>
           </li>
           <li>
-            <a href="#">Top Picks</a>
+            <a href="/shop/wristwatches">Top Picks</a>
           </li>
           {/* <li>
             <a href="#">Brands</a>
@@ -46,11 +48,9 @@ export function Footer() {
               FAQs
             </a>
           </li>
+
           <li>
-            <a href="#">Cookie Policy</a>
-          </li>
-          <li>
-            <a href="#">Terms of Use</a>
+            <Link to="/privacy-policy">Privacy Policy</Link>
           </li>
           {/* <li>
             <a href="#">Privacy Policy</a>
