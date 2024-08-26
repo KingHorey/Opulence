@@ -78,6 +78,7 @@ productsRoute.get('/all-categories', async (req: Request, res: Response) => {
 
 productsRoute.post("/add-product", verifyUser, async (req: Request, res: Response) => {
 	let { name, brand, price, quantity, description, image, sizeVariants, colorVariants, category, featured } = req.body.data;
+	console.log(req.body.data)
 	const linkName = slugify(name.trim())
 	colorVariants = colorVariants.split(" ");
 	colorVariants = colorVariants.map((e: string) => {
